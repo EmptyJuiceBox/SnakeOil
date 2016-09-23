@@ -4,7 +4,7 @@ window.api_request = function(method, path, body, cb)
 {
     var xhr = new XMLHttpRequest();
 
-    xhr.open(method, path);
+    xhr.open(method, "http://localhost:8080/" + path);
     xhr.overrideMimeType("text/json");
     xhr.send(body);
 
@@ -12,10 +12,10 @@ window.api_request = function(method, path, body, cb)
         "load",
         function()
         {
-            json = JSON.parse(xhr.responseText);
+            var json = JSON.parse(xhr.responseText);
 
             if (json.err)
-                throw err_new(json.err.msg);
+                throw error_new(json.err);
 
             if (cb)
                 cb(JSON.parse(xhr.responseText));
@@ -43,10 +43,12 @@ window.api_request = function(method, path, body, cb)
 
 window.api_get = function(path, cb)
 {
-    return request("GET", path, null, cb);
+    return api_request("GET", path, null, cb);
 }
 
-window.api_post = function(path, payload, cb)
+window.api_post = function(path, body, cb)
 {
-    return request("POST", path, payload, cb);
+    var json = JSON.stringify(body);
+
+    return api_request("POST", path, json, cb);
 }
