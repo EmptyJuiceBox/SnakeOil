@@ -1,12 +1,20 @@
+var cardpacks = require("./cardpacks");
+
+var cardsPerPlayer = 6;
+
 module.exports = class Room {
-	constructor(game, name, password, operator) {
+	constructor(game, name, password, operator, cardpacknames) {
 		this.name = name;
 		this.id; // will be set by something else
 
 		this.game = game;
 		this.operator = operator;
 
-		this.players = [operator];
+		this.cardpack = cardpacknames
+			.map(c => cardpacks[c])
+			.reduce((acc, arr) => acc.concat(arr), []);
+
+		this.players = [];
 		this.password = password;
 	}
 
@@ -14,6 +22,7 @@ module.exports = class Room {
 		if (!this.password || password === this.password) {
 			this.players[player.id] = player;
 			this.players.forEach(u => u.emit("/players"));
+
 		} else {
 			throw "Invalid password";
 		}
@@ -26,6 +35,12 @@ module.exports = class Room {
 			this.players[player.id] = undefined;
 			this.players.forEach(u => u.emit("/players"));
 		}
+	}
+
+	setPlayerHand(player) {
+		player.hand = [];
+		for (var i = 0; i < cardsPerPlayer; ++i)
+			player.hand.push(this.randomCard());
 	}
 
 	destroy() {
@@ -48,5 +63,10 @@ module.exports = class Room {
 		return {
 			operator: this.operator.id,
 		};
+	}
+
+	randomCard() {
+		var i = Math.floor(Math.random() * this.cardpack.length);
+		return this.cardpack[i];
 	}
 }

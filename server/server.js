@@ -84,12 +84,14 @@ function handler(req, res) {
 	var m = (c ? req.headers.cookie.match(/id=([^;$]+)/) : null);
 	var id = (m ? m[1] : null);
 
-	// If the endpoint requires an id, and there's no id cookie, error
-	if (!ep.noId && id == null)
-		return res.err("No id cookie provided");
-
 	// Get the player if there's an ID cookie
 	var player = (id === null ? null : game.getPlayer(id));
+
+	// If the endpoint requires an id, and there's no id cookie, error
+	if (!ep.noId && id == null)
+		return res.err("No 'id' cookie provided");
+	if (!ep.noId && player == null)
+		return res.err("Invalid player ID");
 
 	// If it's a POST request, get the payload
 	if (req.method == "POST") {

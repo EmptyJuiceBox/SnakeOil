@@ -2,12 +2,15 @@ POST - /register
 > { "name": name }
 < { "id": id }
 
+GET - /cardpacks
+< [ "pack1", "pack2" ]
+
 /*
  * Do room stuff
  */
 
 POST - /room_create
-> { "name": name[, "password": password ] }
+> { "name": name, "cardpacks": [ "pack1", "pack2" ](, "password": password ) }
 < { "id": id }
 ==> /room, /players, /roles, /hand
 
@@ -19,7 +22,7 @@ POST - /room_leave
 ==> /room
 
 /*
- * Get room related info
+ * Get game related info
  */
 
 GET - /room
