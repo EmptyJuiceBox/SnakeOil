@@ -10,6 +10,9 @@ document.addEventListener(
     function()
     {
         cards_container = document.getElementById("cards-container");
+        cards_new(1, "truck");
+        cards_new(2, "cat");
+        cards_new(3, "dog");
     },
     false
 );
@@ -18,16 +21,26 @@ window.cards_new = function(id, text)
 {
     var carddiv = document.createElement("div");
     var cardpar = document.createElement("p");
+
     cardpar.textContent = text;
+
     carddiv.id = "card-" + id;
+    carddiv.className = "card";
     carddiv.appendChild(cardpar);
+
+    carddiv.onclick = function () { pitch_select(id) };
+
     cards_container.appendChild(carddiv);
+
+    cards_hand[id] = text;
 }
 
 window.cards_del = function(id)
 {
     var carddiv = cards_container.getElementById("card-" + id);
     cards_container.removeChild(carddiv);
+
+    delete cards_hand[id]
 }
 
 events_callers.hand = function(cards)

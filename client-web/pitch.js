@@ -6,25 +6,51 @@ var pitch_selected = [];
 var pitch_timeout  = null;
 var pitch_timer_intervalid = null;
 
+var pitch_self_product = null;
+
 if (!Date.now) {
     Date.now = function() { return new Date().getTime(); }
 }
 
+document.addEventListener(
+    "DOMContentLoaded",
+    function()
+    {
+        pitch_self_product = document.getElementById("self-product");
+    },
+    false
+);
+
+
 window.pitch_select_new = function(cardid)
 {
+    var carddiv = document.getElementById("card-" + cardid);
+    carddiv.className += " card-selected";
 }
 
 window.pitch_select_del = function(cardid)
 {
+    var carddiv = document.getElementById("card-" + cardid);
+    carddiv.className = carddiv.className.replace(" card-selected", "");
 }
 
 window.pitch_select = function(cardid)
 {
+    if (pitch_selected.indexOf(cardid) > 0)
+        return;
+
     if (pitch_selected.length === 2)
         pitch_select_del(pitch_selected.shift());
 
     pitch_selected.push(cardid);
     pitch_select_new(cardid);
+    pitch_self_display();
+}
+
+window.pitch_self_display = function()
+{
+    var names = pitch_selected.map(function(id) { return cards_hand[id]; });
+    pitch_self_product.textContent = names.join(" ");
 }
 
 window.pitch_update_timer = function()

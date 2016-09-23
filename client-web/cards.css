@@ -1,3 +1,29 @@
+.card
+{
+    border-radius: 0px 0px 12px 2px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.card-selected
+{
+    border-bottom: red solid 4px;
+    padding-top: 5px;
+}
+
+
+.card > p
+{
+    margin-top:  20px;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 5px;
+}
+
 #cards-container
 {
     border-top: 10px solid #aaa;
@@ -15,24 +41,19 @@
     display: inline-block;
     margin-left: 10px;
     transition: padding 0.1s;
-        border-radius: 0px 0px 10px 2px;
 }
 
-#cards-container > div > p
+#cards-container > .card > p
 {
     white-space: normal;
-    margin-top:  20px;
-    margin-bottom: 20px;
-    text-align: center;
-    padding: 5px;
 }
 
-#cards-container > div:hover
+#cards-container > .card:hover
 {
     padding-top: 5px;
 }
 
-#cards-container > div:hover > p
+#cards-container > .card:hover > p
 {
     color: #777;
 }
