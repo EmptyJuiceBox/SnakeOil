@@ -80,7 +80,7 @@ function handler(req, res) {
 	res.err = resError;
 
 	// Get the session ID
-	var id = req.headers["session-id"] || null;
+	var id = req.headers["session-id"];
 
 	// Get the player if there's an ID cookie
 	var player = (id === undefined ? null : game.getPlayer(id));
