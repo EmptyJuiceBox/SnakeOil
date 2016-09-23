@@ -1,6 +1,6 @@
 "use strict";
 
-window.err_new = function(msg)
+window.error_new = function(msg)
 {
-    return null;
+    return msg;
 }
