@@ -1,10 +1,36 @@
+var Room = require("./room");
+
 module.exports = class User {
-	constructor(name, session) {
+	constructor(game, name) {
 		this.name = name;
-		this.session = session;
+		this.id; // will be set by something else
+
+		this.game = game;
+		this.room = null;
 
 		this.eventListener = null;
 		this.eventQueue = [];
+	}
+
+	createRoom(name, password) {
+		var room = new Room(this.game, name, password, this);
+		this.game.registerRoom(room);
+		this.room = room;
+	}
+
+	joinRoom(room, password) {
+		if (this.room)
+			this.leaveRoom();
+
+		room.registerUser(this, password);
+		this.room = room;
+	}
+
+	leaveRoom() {
+		if (this.room) {
+			this.room = null;
+			this.room.removeUser(this);
+		}
 	}
 
 	addListener(res) {
@@ -20,8 +46,8 @@ module.exports = class User {
 		}
 	}
 
-	emit(data) {
-		this.eventQueue.push(data);
+	emit(url) {
+		this.eventQueue.push(url);
 		console.log(this.eventQueue);
 		if (this.eventListener) {
 			this.eventListener.json(this.eventQueue);
