@@ -1,0 +1,38 @@
+#cards-container
+{
+    border-top: 10px solid #aaa;
+    min-height: 140px;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+#cards-container > div
+{
+    vertical-align: top;
+    background-color: #aaa;
+    width: 130px;
+    display: inline-block;
+    margin-left: 10px;
+    transition: padding 0.1s;
+        border-radius: 0px 0px 10px 2px;
+}
+
+#cards-container > div > p
+{
+    white-space: normal;
+    margin-top:  20px;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 5px;
+}
+
+#cards-container > div:hover
+{
+    padding-top: 5px;
+}
+
+#cards-container > div:hover > p
+{
+    color: #777;
+}
