@@ -1,30 +1,30 @@
 module.exports = class Game {
 	constructor() {
-		this.users = [];
+		this.players = [];
 		this.rooms = [];
 	}
 
 	/*
-	 * User stuff
+	 * Player stuff
 	 */
 
-	registerUser(user) {
-		var id = this.users.length;
-		this.users.push(user);
-		user.id = id;
+	registerPlayer(player) {
+		var id = this.players.length;
+		this.players.push(player);
+		player.id = id;
 		return id;
 	}
 
-	removeUser(user) {
-		if (this.users[user.id]) {
-			if (user.room)
-				user.room.removeUser(user);
-			delete this.users[user.id];
+	removePlayer(player) {
+		if (this.players[player.id]) {
+			if (player.room)
+				player.room.removePlayer(player);
+			delete this.players[player.id];
 		}
 	}
 
-	getUser(id) {
-		return this.users[id];
+	getPlayer(id) {
+		return this.players[id];
 	}
 
 	/*
