@@ -1,0 +1,61 @@
+POST - /register
+> { "name": name }
+< { "id": id }
+
+/*
+ * Do room stuff
+ */
+
+POST - /room_create
+> { "name": name[, "password": password ] }
+< { "id": id }
+==> /room, /players, /roles, /hand
+
+POST - /room_join
+> { "id": id[, "password": password ] }
+==> /room, /players, /roles, /hand
+
+POST - /room_leave
+==> /room
+
+/*
+ * Get room related info
+ */
+
+GET - /room
+< { "id": id, "name": name  }
+
+GET - /hand
+< { cardid: cardtext, ... }
+
+GET - /players
+< { playerid : {"name": name, "score": score, "pitch": pitch}, ... }
+
+GET - /roles
+< { "customer": playerid, "profession": name, "pitcher": playerid }
+
+/*
+ * Do game stuff
+ */
+
+POST - /pitch-start
+> { "cards": [cardid, cardid] }
+< { "time": seconds }
+
+POST - /pitch-end
+
+POST - /reveal
+> { }
+< { }
+
+POST - /choose
+> { "product": product-id }
+< { }
+
+AND FINALLY
+
+GET - /event
+< ["/path", "/path2"]
+
+All requests are sent with user ID cookies
+
