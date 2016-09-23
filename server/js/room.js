@@ -11,10 +11,12 @@ module.exports = class Room {
 	}
 
 	registerUser(user, password) {
-		if (!this.password || password === this.password)
+		if (!this.password || password === this.password) {
 			this.users[user.id] = user;
-		else
+			this.users.forEach(u => u.emit("/room"));
+		} else {
 			throw "Invalid password";
+		}
 	}
 
 	removeUser(user) {
@@ -22,12 +24,20 @@ module.exports = class Room {
 			this.destroy();
 		} if (this.users[user.id]) {
 			delete this.users[user.id];
-			this.users.forEach(u => u.emit("/room_users"));
+			this.users.forEach(u => u.emit("/room"));
 		}
 	}
 
 	destroy() {
 		this.users.forEach(u => u.leaveRoom());
 		this.game.removeRoom(this);
+	}
+
+	serialize() {
+		return {
+			id: this.id,
+			name: this.name,
+			users: this.users.map(u => u.serialize())
+		};
 	}
 }

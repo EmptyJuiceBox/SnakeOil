@@ -12,6 +12,7 @@ module.exports = class Game {
 		var id = this.users.length;
 		this.users.push(user);
 		user.id = id;
+		return id;
 	}
 
 	removeUser(user) {
@@ -34,6 +35,7 @@ module.exports = class Game {
 		var id = this.rooms.length;
 		this.rooms.push(room);
 		room.id = id;
+		return id;
 	}
 
 	removeRoom(room) {

@@ -43,6 +43,9 @@ function resJson(obj) {
 }
 
 function resData(data) {
+	if (data === undefined)
+		data = {};
+
 	this.json({
 		err: null,
 		data: data

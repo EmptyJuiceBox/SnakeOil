@@ -48,10 +48,16 @@ module.exports = class User {
 
 	emit(url) {
 		this.eventQueue.push(url);
-		console.log(this.eventQueue);
 		if (this.eventListener) {
 			this.eventListener.json(this.eventQueue);
 			this.eventQueue = [];
 		}
+	}
+
+	serialize() {
+		return {
+			id: this.id,
+			name: this.name
+		};
 	}
 }
