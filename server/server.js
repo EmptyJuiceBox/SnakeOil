@@ -80,15 +80,15 @@ function handler(req, res) {
 	res.err = resError;
 
 	// Get the session ID
-	var id = req.headers["session-id"];
+	var id = req.headers["session-id"] || null;
 
 	// Get the player if there's an ID cookie
-	var player = (id === null ? null : game.getPlayer(id));
+	var player = (id === undefined ? null : game.getPlayer(id));
 
 	// If the endpoint requires an id, and there's no id cookie, error
-	if (!ep.noId && id == null)
-		return res.err("No 'id' cookie provided");
-	if (!ep.noId && player == null)
+	if (!ep.noId && id === undefined)
+		return res.err("No 'session-id' header provided");
+	if (!ep.noId && player === undefined)
 		return res.err("Invalid player ID");
 
 	// If it's a POST request, get the payload
