@@ -1,40 +1,69 @@
-var User = require("./user");
+var Player = require("./player");
 
-function ep_register(game, user, res, opts) {
-	var u = new User(game, opts.name);
-	var id = game.registerUser(u);
+/*
+ * Register new player
+ */
+
+function ep_register(game, player, res, opts) {
+	var u = new Player(game, opts.name);
+	var id = game.registerPlayer(u);
 	res.data({ id: id });
 }
 
-function ep_room_create(game, user, res, opts) {
-	user.createRoom(opts.name, opts.password);
+/*
+ * Room related endpoints
+ */
+
+function ep_room_create(game, player, res, opts) {
+	player.createRoom(opts.name, opts.password);
 	res.data();
 }
 
-function ep_room_join(game, user, res, opts) {
+function ep_room_join(game, player, res, opts) {
 	var room = game.getRoom(opts.id);
 	if (!room)
 		return res.err("Room doesn't exist.");
 
-	user.joinRoom(room);
+	player.joinRoom(room);
 	res.data();
 }
 
-function ep_room_leave(game, user, res) {
-	user.leaveRoom();
+function ep_room_leave(game, player, res) {
+	player.leaveRoom();
 	res.data();
 }
 
-function ep_room(game, user, res) {
-	if (user.room) {
-		res.data(user.room.serialize());
-	} else {
+/*
+ * Get information
+ */
+
+function ep_room(game, player, res) {
+	if (player.room)
+		res.data(player.room.serialize());
+	else
 		res.data(null);
-	}
 }
 
-function ep_event(game, user, res) {
-	user.addListener(res);
+function ep_players(game, player, res) {
+	if (player.room)
+		res.data(player.room.serializePlayers());
+	else
+		res.data(null);
+}
+
+function ep_roles(game, player, res) {
+	if (player.room)
+		res.data(player.room.serializeRoles());
+	else
+		res.data(null);
+}
+
+/*
+ * Events
+ */
+
+function ep_event(game, player, res) {
+	player.addListener(res);
 }
 
 module.exports = function(eplist) {
@@ -45,10 +74,18 @@ module.exports = function(eplist) {
 		eplist[path] = props;
 	}
 
+	/*
+	 * Register new player
+	 */
+
 	ep("POST", "/register", ep_register, {
 		args: [ [ "name", "string" ] ],
 		noId: true
 	});
+
+	/*
+	 * Room related endpoints
+	 */
 
 	ep("POST", "/room_create", ep_room_create, {
 		args: [ [ "name", "string" ] ]
@@ -58,8 +95,21 @@ module.exports = function(eplist) {
 		args: [ [ "id", "number" ] ]
 	});
 
+	ep("POST", "/room_leave", ep_room_leave);
+
+	/*
+	 * Get information
+	 */
+
 	ep("GET", "/room", ep_room);
 
+	ep("GET", "/players", ep_players);
+
+	ep("GET", "/roles", ep_roles);
+
+	/*
+	 * Events
+	 */
 
 	ep("POST", "/event", ep_event);
 }

@@ -1,6 +1,6 @@
 var Room = require("./room");
 
-module.exports = class User {
+module.exports = class Player {
 	constructor(game, name) {
 		this.name = name;
 		this.id; // will be set by something else
@@ -16,22 +16,33 @@ module.exports = class User {
 		var room = new Room(this.game, name, password, this);
 		this.game.registerRoom(room);
 		this.room = room;
+		this.emit("/players");
+		this.emit("/roles");
 	}
 
 	joinRoom(room, password) {
 		if (this.room)
 			this.leaveRoom();
 
-		room.registerUser(this, password);
+		room.registerPlayer(this, password);
 		this.room = room;
+
+		this.emit("/room");
+		this.emit("/roles");
 	}
 
 	leaveRoom() {
 		if (this.room) {
+			this.room.removePlayer(this);
 			this.room = null;
-			this.room.removeUser(this);
+
+			this.emit("/room");
 		}
 	}
+
+	/*
+	 * Event related stuff
+	 */
 
 	addListener(res) {
 		if (this.eventListener)

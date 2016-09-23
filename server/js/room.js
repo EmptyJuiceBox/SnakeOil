@@ -6,38 +6,47 @@ module.exports = class Room {
 		this.game = game;
 		this.operator = operator;
 
-		this.users = [operator];
+		this.players = [operator];
 		this.password = password;
 	}
 
-	registerUser(user, password) {
+	registerPlayer(player, password) {
 		if (!this.password || password === this.password) {
-			this.users[user.id] = user;
-			this.users.forEach(u => u.emit("/room"));
+			this.players[player.id] = player;
+			this.players.forEach(u => u.emit("/players"));
 		} else {
 			throw "Invalid password";
 		}
 	}
 
-	removeUser(user) {
-		if (user == this.operator) {
+	removePlayer(player) {
+		if (player == this.operator) {
 			this.destroy();
-		} if (this.users[user.id]) {
-			delete this.users[user.id];
-			this.users.forEach(u => u.emit("/room"));
+		} if (this.players[player.id]) {
+			this.players[player.id] = undefined;
+			this.players.forEach(u => u.emit("/players"));
 		}
 	}
 
 	destroy() {
-		this.users.forEach(u => u.leaveRoom());
+		this.players.forEach(u => u.leaveRoom());
 		this.game.removeRoom(this);
 	}
 
 	serialize() {
 		return {
 			id: this.id,
-			name: this.name,
-			users: this.users.map(u => u.serialize())
+			name: this.name
+		};
+	}
+
+	serializePlayers() {
+		return this.players.map(u => u.serialize());
+	}
+
+	serializeRoles() {
+		return {
+			operator: this.operator.id,
 		};
 	}
 }
