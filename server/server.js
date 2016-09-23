@@ -6,7 +6,7 @@ var Game = require("./js/game");
 
 var game = new Game();
 
-function handleRequestWithPayload(player, payload, ep, res) {
+function handleRequestWithPayload(user, payload, ep, res) {
 	var obj;
 	if (payload === "") {
 		obj = {};
@@ -32,7 +32,7 @@ function handleRequestWithPayload(player, payload, ep, res) {
 	}
 
 	try {
-		ep.fn(game, player, res, obj);
+		ep.fn(game, user, res, obj);
 	} catch (err) {
 		res.err(err);
 	}
@@ -85,8 +85,8 @@ function handler(req, res) {
 	if (!ep.noId && id == null)
 		return res.err("No id cookie provided");
 
-	// Get the player if there's an ID cookie
-	var player = (id === null ? null : game.getPlayer(id));
+	// Get the user if there's an ID cookie
+	var user = (id === null ? null : game.getUser(id));
 
 	// If it's a POST request, get the payload
 	if (req.method == "POST") {
@@ -94,11 +94,11 @@ function handler(req, res) {
 		req
 			.on("data", d => str += d)
 			.on("end", () => {
-				handleRequestWithPayload(player, str, ep, res);
+				handleRequestWithPayload(user, str, ep, res);
 			});
 	} else {
 		try {
-			ep.fn(game, player, res);
+			ep.fn(game, user, res);
 		} catch (err) {
 			res.err(err);
 		}
