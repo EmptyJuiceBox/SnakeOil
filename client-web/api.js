@@ -6,6 +6,7 @@ window.api_request = function(method, path, body, cb)
 
     xhr.open(method, "http://localhost:8080/" + path);
     xhr.overrideMimeType("text/json");
+    xhr.setRequestHeader("Session-Id", player_me);
     xhr.send(body);
 
     xhr.addEventListener(
@@ -18,7 +19,7 @@ window.api_request = function(method, path, body, cb)
                 throw error_new(json.err);
 
             if (cb)
-                cb(JSON.parse(xhr.responseText));
+                cb(JSON.parse(xhr.responseText).data);
         }
     );
 

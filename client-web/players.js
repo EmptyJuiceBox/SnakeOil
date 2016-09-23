@@ -26,6 +26,7 @@ window.players_update = function(playerid, name, score, pitch)
     if (playerdiv === null)
     {
         playerdiv = document.createElement("div");
+        playerdiv.id = "player-" + playerid;
         namespan  = document.createElement("span");
         scorespan = document.createElement("span");
         pitchspan = document.createElement("span");
@@ -42,15 +43,15 @@ window.players_update = function(playerid, name, score, pitch)
     }
     else
     {
-        playerdiv.forEach(
+        playerdiv.childNodes.forEach(
             function (n) { if (n.className ==  "name")  namespan = n }
         );
 
-        playerdiv.forEach(
+        playerdiv.childNodes.forEach(
             function (n) { if (n.className == "score") scorespan = n }
         );
 
-        playerdiv.forEach(
+        playerdiv.childNodes.forEach(
             function (n) { if (n.className == "pitch") pitchspan = n }
         );
 
@@ -59,9 +60,6 @@ window.players_update = function(playerid, name, score, pitch)
     namespan.textContent  = name;
     scorespan.textContent = score;
     pitchspan.textContent = pitch;
-
-    players_scores[playerid] = score;
-    players_names[playerid]  = name;
 }
 
 window.players_del = function(playerid)
@@ -74,7 +72,7 @@ events_callers.register = function()
 {
     var name = prompt("Enter a nickname ...");
 
-    api_get(
+    api_post(
         "register",
         {"name": name},
         players_register_handler
@@ -84,10 +82,22 @@ events_callers.register = function()
 window.players_register_handler = function(data)
 {
     console.log("Playing with player id " + data.id);
-    players_me = data.id;
+    console.log(data);
+    players_me  = data.id;
 }
 
-events_callers.players = function(name)
+events_callers.room_join = function()
+{
+    var id = prompt("Enter room id ...");
+
+    api_post("room_join", {"id": id}, players_room_join_handler);
+}
+
+window.players_room_join_handler = function(data)
+{
+}
+
+events_callers.players = function()
 {
     api_get("players", null, players_players_handler);
 }
