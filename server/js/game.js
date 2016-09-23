@@ -8,4 +8,8 @@ module.exports = class Game {
 		this.users.push(user);
 		return id;
 	}
+
+	getUser(id) {
+		return this.users[id];
+	}
 }
