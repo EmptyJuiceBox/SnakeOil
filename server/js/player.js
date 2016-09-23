@@ -8,16 +8,19 @@ module.exports = class Player {
 		this.game = game;
 		this.room = null;
 
+		this.hand = [];
+
 		this.eventListener = null;
 		this.eventQueue = [];
 	}
 
-	createRoom(name, password) {
-		var room = new Room(this.game, name, password, this);
+	createRoom(name, password, cardpacknames) {
+		if (cardpacknames.length < 1)
+			throw "Need at least 1 card pack";
+
+		var room = new Room(this.game, name, password, this, cardpacknames);
 		this.game.registerRoom(room);
-		this.room = room;
-		this.emit("/players");
-		this.emit("/roles");
+		this.joinRoom(room, password);
 	}
 
 	joinRoom(room, password) {
@@ -28,16 +31,25 @@ module.exports = class Player {
 		this.room = room;
 
 		this.emit("/room");
+		this.emit("/players");
 		this.emit("/roles");
+		this.emit("/hand");
+
+		room.setPlayerHand(this);
 	}
 
 	leaveRoom() {
+		this.resetGameData();
 		if (this.room) {
 			this.room.removePlayer(this);
 			this.room = null;
 
 			this.emit("/room");
 		}
+	}
+
+	resetGameData() {
+		this.hand = [];
 	}
 
 	/*
@@ -70,5 +82,9 @@ module.exports = class Player {
 			id: this.id,
 			name: this.name
 		};
+	}
+
+	serializeHand() {
+		return this.hand;
 	}
 }

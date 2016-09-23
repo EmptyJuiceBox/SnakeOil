@@ -1,4 +1,5 @@
 var Player = require("./player");
+var cardpacks = require("./cardpacks");
 
 /*
  * Register new player
@@ -11,11 +12,19 @@ function ep_register(game, player, res, opts) {
 }
 
 /*
+ * Get card pack names
+ */
+
+function ep_cardpacks(game, player, res) {
+	res.data(Object.keys(cardpacks));
+}
+
+/*
  * Room related endpoints
  */
 
 function ep_room_create(game, player, res, opts) {
-	player.createRoom(opts.name, opts.password);
+	player.createRoom(opts.name, opts.password, opts.cardpacks);
 	res.data();
 }
 
@@ -58,6 +67,10 @@ function ep_roles(game, player, res) {
 		res.data(null);
 }
 
+function ep_hand(game, player, res) {
+	res.data(player.serializeHand());
+}
+
 /*
  * Events
  */
@@ -84,11 +97,17 @@ module.exports = function(eplist) {
 	});
 
 	/*
+	 * Get card pack names
+	 */
+
+	ep("GET", "/cardpacks", ep_cardpacks);
+
+	/*
 	 * Room related endpoints
 	 */
 
 	ep("POST", "/room_create", ep_room_create, {
-		args: [ [ "name", "string" ] ]
+		args: [ [ "name", "string" ], [ "cardpacks", "object" ] ]
 	});
 
 	ep("POST", "/room_join", ep_room_join, {
@@ -106,6 +125,8 @@ module.exports = function(eplist) {
 	ep("GET", "/players", ep_players);
 
 	ep("GET", "/roles", ep_roles);
+
+	ep("GET", "/hand", ep_hand);
 
 	/*
 	 * Events
