@@ -79,10 +79,8 @@ function handler(req, res) {
 	res.data = resData;
 	res.err = resError;
 
-	// Find the ID cookie if supplied
-	var c = req.headers.cookie;
-	var m = (c ? req.headers.cookie.match(/id=([^;$]+)/) : null);
-	var id = (m ? m[1] : null);
+	// Get the session ID
+	var id = req.headers["session-id"];
 
 	// Get the player if there's an ID cookie
 	var player = (id === null ? null : game.getPlayer(id));
