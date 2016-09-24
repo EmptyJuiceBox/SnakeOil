@@ -17,6 +17,7 @@ function ep_register(game, player, res, opts) {
 
 function ep_heartbeat(game, player, res) {
 	player.heartbeat();
+	res.data();
 }
 
 /*
