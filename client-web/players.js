@@ -7,7 +7,9 @@ var players_container = null;
 var players_pitcher = null;
 var players_customer = null;
 var players_profession = null;
+
 var players_me = null;
+var players_token = null;
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -27,6 +29,8 @@ window.players_update = function(playerid, name, score, pitch)
     {
         playerdiv = document.createElement("div");
         playerdiv.id = "player-" + playerid;
+        playerdiv.className = "player";
+
         namespan  = document.createElement("span");
         scorespan = document.createElement("span");
         pitchspan = document.createElement("span");
@@ -83,7 +87,8 @@ window.players_register_handler = function(data)
 {
     console.log("Playing with player id " + data.id);
     console.log(data);
-    players_me  = data.id;
+    players_me    = data.id;
+    players_token = data.token;
 }
 
 events_callers.room_join = function()
@@ -94,6 +99,24 @@ events_callers.room_join = function()
 }
 
 window.players_room_join_handler = function(data)
+{
+}
+
+events_callers.room_create = function()
+{
+    var name = prompt("Enter name for room ...");
+    var packs = prompt("Enter card packs for room ...");
+
+    packs = packs.split(" ");
+
+    api_post(
+        "room_create",
+        {"name": name, "cardpacks": packs},
+        players_room_create_handler
+    );
+}
+
+window.players_room_create_handler = function(data)
 {
 }
 
