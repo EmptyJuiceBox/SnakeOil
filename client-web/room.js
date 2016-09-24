@@ -71,7 +71,7 @@ window.room_register_handler = function(data)
 
 events_callers.room_join = function()
 {
-    var id = parseInt(room_id_input.value);
+    var id = room_id_input.value.trim();
 
     api_post("room_join", {"id": id}, room_room_join_handler);
 }
