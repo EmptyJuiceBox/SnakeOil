@@ -68,7 +68,7 @@ window.pitch_end = function()
 {
     clearInterval(pitch_timer_intervalid);
     pitch_timer_intervalid = null;
-    pitch_reveal_button.display = "none";
+    pitch_reveal_button.style.display = "none";
     pitch_selectable = true;
 
     api_post("pitch-end", pitch_end_handler);
@@ -84,7 +84,7 @@ events_callers.pitch_start = function()
     if (pitch_selected.length !== 2)
         throw error_new("Select some cards first");
 
-    pitch_reveal_button.display = "inline-block";
+    pitch_reveal_button.style.display = "inline-block";
     pitch_selectable = false;
 
     api_post(
@@ -102,11 +102,11 @@ window.pitch_start_handler = function(data)
 
 window.pitch_turn = function()
 {
-    pitch_button.display = "inline-block";
+    pitch_button.style.display = "inline-block";
 }
 
-events_callers.pitch_reveal = function()
+events_callers.reveal = function()
 {
-    pitch_reveal_button.display = "inline-block";
+    pitch_reveal_button.style.display = "inline-block";
     api_post("reveal", null, null);
 }

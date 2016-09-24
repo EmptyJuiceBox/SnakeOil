@@ -1,12 +1,23 @@
-var room_cardpacks_container;
+var room_cardpacks_list;
+var room_name_input;
+var room_id_input;
 
 document.addEventListener(
     "DOMContentLoaded",
     function()
     {
-        room_cardpacks_container =
-            document.getElementById("cardpack-container");
-        events_callers.register()
+        room_cardpacks_list = document.getElementById("cardpack-container");
+        room_name_input     = document.getElementById("new-room-name");
+        room_id_input       = document.getElementById("room-join-id");
+
+        events_callers.register();
+
+        document.getElementById("new-room-button").onclick =
+            events_callers.room_create
+
+        document.getElementById("join-room-button").onclick =
+            events_callers.room_join
+
     },
     false
 );
@@ -20,9 +31,10 @@ window.room_cardpacks_handler = function(data)
 {
     for (i=0; i < data.length; i++)
     {
-        var packdiv = document.createElement("div");
-        packdiv.textContent = data[i];
-        room_cardpacks_container.appendChild(packdiv);
+        var packopt = document.createElement("option");
+        packopt.textContent = data[i];
+        packopt.value       = data[i];
+        room_cardpacks_list.appendChild(packopt);
     }
 }
 
@@ -47,7 +59,7 @@ window.room_register_handler = function(data)
 
 events_callers.room_join = function()
 {
-    var id = prompt("Enter room id ...");
+    var id = parseInt(room_id_input.value);
 
     api_post("room_join", {"id": id}, room_room_join_handler);
 }
@@ -58,10 +70,18 @@ window.room_room_join_handler = function(data)
 
 events_callers.room_create = function()
 {
-    var name = prompt("Enter name for room ...");
-    var packs = prompt("Enter card packs for room ...");
+    var name = room_name_input.value;
+    var packs = room_cardpacks_list.selectedOptions;
+    var packnames = [];
 
-    packs = packs.split(" ");
+    if (packs.length === 0)
+        throw error_new("You must select at least one cardpack for your room");
+
+    if (! name)
+        throw error_new("You must name your new room");
+
+    for (i=0; i < packs.length; i++)
+        packnames.push(packs[i].value);
 
     api_post(
         "room_create",

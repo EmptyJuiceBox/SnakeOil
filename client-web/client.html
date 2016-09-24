@@ -5,12 +5,15 @@
   <head>
     <title>Snake Oil</title>
 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
     <script src="pitch.js"></script>
     <script src="error.js"></script>
     <script src="api.js"></script>
     <script src="cards.js"></script>
     <script src="events.js"></script>
     <script src="players.js"></script>
+    <script src="room.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" type="text/css" href="cards.css" />
@@ -18,17 +21,53 @@
   </head>
 
   <body>
-    <div id="players-container">
+    <div id="game-ui">
+      <div id="players-container">
+      </div>
+
+      <div id="pitch-container">
+        You are pitching a
+        <span id="self-product"></span>
+        <span id="pitcher"></span>
+        <button id="pitch-button">Pitch</button>
+        <button id="reveal-button">Reveal</button>
+        <br />
+        <span id="product"></span>
+      </div>
+      <div id="cards-container">
+      </div>
     </div>
 
-    <div id="pitch-container">
-      You are pitching a
-      <span id="self-product"></span>
-      <span id="pitcher"></span>
-      <br />
-      <span id="product"></span>
+    <div id="room-ui">
+      <h1>Join a game</h1>
+      <div id="new-room-ui">
+        <h2>Create a new game ...</h2>
+        <p>
+          <span>Select cardpacks for new game</span>
+          <br />
+          <select id="cardpack-container" multiple="multiple">
+          </select>
+        </p>
+        <p>
+          <span>Enter a name for the new game</span>
+          <br />
+          <input placeholder="Name ..." id="new-room-name" />
+        </p>
+        <p>
+          <button id="new-room-button">Create new game</button>
+        </p>
     </div>
-    <div id="cards-container">
+    <div id="join-room-ui">
+      <h2>Join an existing room</h2>
+      <p>
+        <span>Enter an existing room's ID</span>
+        <br />
+        <input placeholder="Room ID" id="room-join-id" />
+      </p>
+      <p>
+        <button id="join-room-button">Join game</button>
+      </p>
+        
     </div>
   </body>
 </html>
