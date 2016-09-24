@@ -12,6 +12,15 @@ function ep_register(game, player, res, opts) {
 }
 
 /*
+ * Heartbeat
+ */
+
+function ep_heartbeat(game, player, res) {
+	player.heartbeat();
+	res.data();
+}
+
+/*
  * Get card pack names
  */
 
@@ -97,6 +106,12 @@ module.exports = function(eplist) {
 	});
 
 	/*
+	 * Heartbeat
+	 */
+
+	ep("POST", "/heartbeat", ep_heartbeat);
+
+	/*
 	 * Get card pack names
 	 */
 
@@ -111,7 +126,7 @@ module.exports = function(eplist) {
 	});
 
 	ep("POST", "/room_join", ep_room_join, {
-		args: [ [ "id", "number" ] ]
+		args: [ [ "id", "string" ] ]
 	});
 
 	ep("POST", "/room_leave", ep_room_leave);

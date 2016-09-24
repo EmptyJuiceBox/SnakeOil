@@ -5,6 +5,9 @@ POST - /register
 GET - /cardpacks
 < [ "pack1", "pack2" ]
 
+POST - /heartbeat
+Must be called as a response to the /heartbeat event, or the player is deleted
+
 /*
  * Do room stuff
  */
@@ -63,3 +66,20 @@ GET - /event
 All requests are sent with user ID headers (session-id)
 and token headers (session-token)
 
+/*
+ * Events
+ */
+
+==> /cardpacks
+
+==> /room
+
+==> /roles
+
+==> /hand
+
+==> /players
+
+==> /roles
+
+==> /heartbeat

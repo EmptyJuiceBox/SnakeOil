@@ -17,6 +17,16 @@ module.exports = class Player {
 		this.eventQueue = [];
 
 		this.emit("/cardpacks");
+
+		// Trigger and expect a /heartbeat every 10 seconds
+		this.heartbeatTimeout = null;
+		setInterval(() => {
+			this.emit("/heartbeat");
+
+			// If we don't get a /heartbeat request within 2 seconds
+			// of the /heartbeat event, we destroy the player
+			this.heartbeatTimeout = setTimeout(() => this.destroy(), 2000);
+		}, 10000);
 	}
 
 	createRoom(name, password, cardpacknames) {
@@ -80,6 +90,22 @@ module.exports = class Player {
 			this.eventListener.data(this.eventQueue);
 			this.eventListener = null;
 			this.eventQueue = [];
+		}
+	}
+
+	destroy() {
+		if (this.room) {
+			this.room.removePlayer(this);
+			this.room = null;
+		}
+
+		this.game.removePlayer(this);
+	}
+
+	heartbeat() {
+		if (this.heartbeatTimeout !== null) {
+			clearTimeout(this.heartbeatTimeout);
+			this.heartbeatTimeout = null;
 		}
 	}
 

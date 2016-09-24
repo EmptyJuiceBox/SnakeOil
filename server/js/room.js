@@ -17,7 +17,7 @@ module.exports = class Room {
 			.map(c => cardpacks[c].professions)
 			.reduce((acc, arr) => acc.concat(arr), []);
 
-		this.players = [];
+		this.players = {};
 		this.password = password;
 	}
 
