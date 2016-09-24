@@ -59,7 +59,9 @@ module.exports = class Room {
 	}
 
 	serializePlayers() {
-		return this.players.map(u => u.serialize());
+		var rtn = {}
+		this.players.map(u => rtn[u.id] = {"name": u.name, "score": 0});
+		return rtn;
 	}
 
 	serializeRoles() {
