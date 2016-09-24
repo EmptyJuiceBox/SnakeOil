@@ -13,10 +13,10 @@ module.exports = class Player {
 
 		this.hand = [];
 
-		this.emit("/cardpacks");
-
 		this.eventListener = null;
 		this.eventQueue = [];
+
+		this.emit("/cardpacks");
 	}
 
 	createRoom(name, password, cardpacknames) {
