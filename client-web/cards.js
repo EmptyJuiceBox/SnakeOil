@@ -21,11 +21,15 @@ window.cards_new = function(id, text)
 {
     var carddiv = document.createElement("div");
     var cardpar = document.createElement("p");
+    var colours = ["red", "yellow", "blue", "green", "purple"];
+
+    var colourindex = text.split("")
+        .reduce(function(a, c){return a + c.charCodeAt(0)}, 0);
 
     cardpar.textContent = text;
 
     carddiv.id = "card-" + id;
-    carddiv.className = "card";
+    carddiv.className = "card card-" + colours[colourindex % colours.length];
     carddiv.appendChild(cardpar);
 
     carddiv.onclick = function () { pitch_select(id) };
@@ -51,7 +55,7 @@ events_callers.hand = function(cards)
 window.cards_hand_handler = function(cards)
 {
     var id;
-    
+
     for (id in cards_hand)
     {
         var text = cards_hand[id];

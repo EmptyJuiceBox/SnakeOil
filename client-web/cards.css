@@ -11,7 +11,7 @@
 
 .card-selected
 {
-    border-bottom: red solid 4px;
+    border-bottom: #f70 solid 4px;
     padding-top: 5px;
 }
 
@@ -26,7 +26,7 @@
 
 #cards-container
 {
-    border-top: 10px solid #aaa;
+    border-top: 5px solid #ccc;
     min-height: 140px;
     height: 20%;
     white-space: nowrap;
@@ -36,7 +36,6 @@
 #cards-container > div
 {
     vertical-align: top;
-    background-color: #aaa;
     width: 130px;
     display: inline-block;
     margin-left: 10px;
@@ -56,4 +55,34 @@
 #cards-container > .card:hover > p
 {
     color: #777;
+}
+
+.card-red
+{
+    background-color: #fcc;
+    color: #500;
+}
+
+.card-yellow
+{
+    background-color: #ffb;
+    color: #550;
+}
+
+.card-blue
+{
+    background-color: #ccf;
+    color: #005;
+}
+
+.card-green
+{
+    background-color: #cfc;
+    color: #050;
+}
+
+.card-purple
+{
+    background-color: #fcf;
+    color: #055;
 }

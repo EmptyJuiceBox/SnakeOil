@@ -1,0 +1,34 @@
+
+#new-room-ui
+{
+    background-color: #ccf;
+    color: #005;
+}
+
+#join-room-ui
+{
+    background-color: #fcc;
+    color: #500;
+}
+
+#new-room-ui > p,
+#join-room-ui > p
+{
+    padding: 5px;
+    border-top: 3px solid white;
+}
+
+#room-ui
+{
+    padding-top: 10px;
+    text-align: center;
+}
+
+#new-room-ui,
+#join-room-ui
+{
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
+    border-radius: 15px;
+}
