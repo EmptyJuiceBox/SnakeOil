@@ -1,0 +1,32 @@
+#players-container
+{
+    overflow: auto;
+    height: 50%;
+}
+
+.player
+{
+    margin: 4px;
+    background-color: #ccc;
+}
+
+.player > span
+{
+    display: inline-block;
+}
+
+.player > .name
+{
+    font-size: 150%;
+    width: 40%;
+}
+
+.player > .score
+{
+}
+
+.player > .pitch
+{
+    float: right;
+
+}
