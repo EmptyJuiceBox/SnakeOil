@@ -111,7 +111,7 @@ module.exports = function(eplist) {
 	});
 
 	ep("POST", "/room_join", ep_room_join, {
-		args: [ [ "id", "number" ] ]
+		args: [ [ "id", "string" ] ]
 	});
 
 	ep("POST", "/room_leave", ep_room_leave);
