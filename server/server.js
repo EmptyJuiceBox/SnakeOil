@@ -2,9 +2,11 @@ var http = require("http");
 var urllib = require("url");
 
 var endpoints = require("./js/endpoints");
+var Fileserver = require("./js/fileserver");
 var Game = require("./js/game");
 
 var game = new Game();
+var fileserver = new Fileserver("../client-web");
 
 function handleRequestWithPayload(player, payload, ep, res) {
 	var obj;
@@ -72,17 +74,16 @@ var eplist = {};
 function handler(req, res) {
 	var url = urllib.parse(req.url);
 
-	var ep = eplist[url.path];
-	if (!ep || ep.method != req.method) {
-		res.writeHead(404);
-		res.end("404 Not Found");
-		return;
-	}
-
 	// Set utility functions to response object
 	res.json = resJson;
 	res.data = resData;
 	res.err = resError;
+
+	// Get the api endpoint, or if there is none, serve files from the web client
+	var ep = eplist[url.path];
+	if (!ep || ep.method != req.method) {
+		return fileserver.serve(url.path, res);
+	}
 
 	// Get the session ID and token
 	var id = req.headers["session-id"];
