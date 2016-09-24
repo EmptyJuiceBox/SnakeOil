@@ -8,5 +8,6 @@ function load(name) {
 }
 
 module.exports = {
-	"Standard": load("standard")
+	"Elixir": load("elixir"),
+	"Original": load("original")
 }

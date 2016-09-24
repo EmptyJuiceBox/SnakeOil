@@ -43,7 +43,7 @@ function handleRequestWithPayload(player, payload, ep, res) {
 function resJson(obj) {
 	var str = JSON.stringify(obj);
 	this.writeHead(200, {
-		"content-type": "application/json",
+		"content-type": "application/json; charset=utf-8",
 		"content-length": str.length
 	});
 	this.end(str);
