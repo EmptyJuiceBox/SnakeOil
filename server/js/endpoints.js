@@ -132,5 +132,5 @@ module.exports = function(eplist) {
 	 * Events
 	 */
 
-	ep("POST", "/event", ep_event);
+	ep("GET", "/event", ep_event);
 }
