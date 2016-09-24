@@ -104,10 +104,10 @@ events_callers.room_create = function()
     var packnames = [];
 
     if (packs.length === 0)
-        throw error_new("You must select at least one cardpack for your room");
+        throw error_new("You must select at least one cardpack for your game");
 
     if (! name)
-        throw error_new("You must name your new room");
+        throw error_new("You must name your new game");
 
     for (i=0; i < packs.length; i++)
         packnames.push(packs[i].value);

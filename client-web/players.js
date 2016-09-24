@@ -24,6 +24,7 @@ window.players_update = function(playerid, name, score, pitch)
 {
     var playerdiv = document.getElementById("player-" + playerid);
     var namespan, scorespan, pitchspan;
+    console.log([playerid, name, score, pitch]);
 
     if (playerdiv === null)
     {
@@ -74,12 +75,14 @@ window.players_del = function(playerid)
 
 events_callers.players = function()
 {
-    api_get("players", null, players_players_handler);
+    api_get("players", players_players_handler);
 }
 
 window.players_players_handler = function(data)
 {
-    for (id in data)
+    console.log(data);
+    
+    for (var id in data)
     {
         var player = data[id];
         players_update(id, player.name, player.score, player.pitch);

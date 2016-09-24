@@ -37,7 +37,7 @@ window.cards_new = function(id, text)
 
 window.cards_del = function(id)
 {
-    var carddiv = cards_container.getElementById("card-" + id);
+    var carddiv = document.getElementById("card-" + id);
     cards_container.removeChild(carddiv);
 
     delete cards_hand[id]
@@ -50,9 +50,11 @@ events_callers.hand = function(cards)
 
 window.cards_hand_handler = function(cards)
 {
+    var id;
+    
     for (id in cards_hand)
     {
-        text = cards_hand[id];
+        var text = cards_hand[id];
 
         if (cards[id] !== text)
             cards_del(id);
@@ -60,7 +62,7 @@ window.cards_hand_handler = function(cards)
 
     for (id in cards)
     {
-        text = cards[id];
+        var text = cards[id];
 
         if (cards_hand[id] !== text)
             cards_new(id, text);
