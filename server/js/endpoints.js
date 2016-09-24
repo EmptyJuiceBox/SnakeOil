@@ -12,6 +12,14 @@ function ep_register(game, player, res, opts) {
 }
 
 /*
+ * Heartbeat
+ */
+
+function ep_heartbeat(game, player, res) {
+	player.heartbeat();
+}
+
+/*
  * Get card pack names
  */
 
@@ -95,6 +103,12 @@ module.exports = function(eplist) {
 		args: [ [ "name", "string" ] ],
 		noPlayer: true
 	});
+
+	/*
+	 * Heartbeat
+	 */
+
+	ep("POST", "/heartbeat", ep_heartbeat);
 
 	/*
 	 * Get card pack names
