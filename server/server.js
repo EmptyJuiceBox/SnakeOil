@@ -39,7 +39,12 @@ function handleRequestWithPayload(player, payload, ep, res) {
 }
 
 function resJson(obj) {
-	this.end(JSON.stringify(obj));
+	var str = JSON.stringify(obj);
+	this.writeHead(200, {
+		"content-type": "application/json",
+		"content-length": str.length
+	});
+	this.end(str);
 }
 
 function resData(data) {
@@ -79,20 +84,28 @@ function handler(req, res) {
 	res.data = resData;
 	res.err = resError;
 
-	// Get the session ID
+	// Get the session ID and token
 	var id = req.headers["session-id"];
+	var token = req.headers["session-token"];
 
 	// Get the player if there's an ID cookie
 	var player = (id === undefined ? null : game.getPlayer(id));
 
-	// If the endpoint requires an id, and there's no id cookie, error
-	if (!ep.noId && id === undefined)
-		return res.err("No 'session-id' header provided");
-	if (!ep.noId && player === undefined)
-		return res.err("Invalid player ID");
+	// If the endpoint requires a player, error if there's no valid player
+	// provided
+	if (!ep.noPlayer) {
+		if (id === undefined)
+			return res.err("No 'session-id' header provided");
+
+		if (player === undefined)
+			return res.err("Invalid player ID");
+
+		if (token !== player.authToken)
+			return res.err("Invalid authentication token");
+	}
 
 	// If it's a POST request, get the payload
-	if (req.method == "POST") {
+	if (req.method === "POST") {
 		var str = "";
 		req
 			.on("data", d => str += d)

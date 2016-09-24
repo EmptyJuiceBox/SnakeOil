@@ -1,9 +1,12 @@
+var crypto = require("crypto");
+
 var Room = require("./room");
 
 module.exports = class Player {
 	constructor(game, name) {
 		this.name = name;
 		this.id; // will be set by something else
+		this.authToken = crypto.randomBytes(16).toString("hex");
 
 		this.game = game;
 		this.room = null;

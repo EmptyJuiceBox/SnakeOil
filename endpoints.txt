@@ -1,6 +1,6 @@
 POST - /register
 > { "name": name }
-< { "id": id }
+< { "id": id, "token": token }
 
 GET - /cardpacks
 < [ "pack1", "pack2" ]
@@ -60,5 +60,6 @@ AND FINALLY
 GET - /event
 < ["/path", "/path2"]
 
-All requests are sent with user ID cookies
+All requests are sent with user ID headers (session-id)
+and token headers (session-token)
 

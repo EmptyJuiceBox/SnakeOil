@@ -8,7 +8,7 @@ var cardpacks = require("./cardpacks");
 function ep_register(game, player, res, opts) {
 	var u = new Player(game, opts.name);
 	var id = game.registerPlayer(u);
-	res.data({ id: id });
+	res.data({ id: id, token: u.authToken });
 }
 
 /*
@@ -93,7 +93,7 @@ module.exports = function(eplist) {
 
 	ep("POST", "/register", ep_register, {
 		args: [ [ "name", "string" ] ],
-		noId: true
+		noPlayer: true
 	});
 
 	/*

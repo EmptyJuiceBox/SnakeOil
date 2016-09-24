@@ -1,7 +1,10 @@
 module.exports = class Game {
 	constructor() {
 		this.players = [];
+		this.playersId = 0;
+
 		this.rooms = [];
+		this.roomsId = 0;
 	}
 
 	/*
@@ -9,8 +12,8 @@ module.exports = class Game {
 	 */
 
 	registerPlayer(player) {
-		var id = this.players.length;
-		this.players.push(player);
+		var id = this.playersId++;
+		this.players[id] = player;
 		player.id = id;
 		return id;
 	}
@@ -19,7 +22,7 @@ module.exports = class Game {
 		if (this.players[player.id]) {
 			if (player.room)
 				player.room.removePlayer(player);
-			delete this.players[player.id];
+			this.players[player.id] = undefined;
 		}
 	}
 
@@ -32,8 +35,8 @@ module.exports = class Game {
 	 */
 
 	registerRoom(room) {
-		var id = this.rooms.length;
-		this.rooms.push(room);
+		var id = this.roomsId++;
+		this.rooms[id] = room;
 		room.id = id;
 		return id;
 	}
@@ -41,7 +44,7 @@ module.exports = class Game {
 	removeRoom(room) {
 		if (this.rooms[room.id]) {
 			room.destroy();
-			delete this.rooms[room.id];
+			this.rooms[room.id] = undefined;
 		}
 	}
 
