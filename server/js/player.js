@@ -65,7 +65,7 @@ module.exports = class Player {
 			this.eventListener.err("Another event listener takes your place.");
 
 		if (this.eventQueue.length > 0) {
-			res.json(this.eventQueue);
+			res.data(this.eventQueue);
 			this.eventListener = null;
 			this.eventQueue = [];
 		} else {
@@ -76,7 +76,7 @@ module.exports = class Player {
 	emit(url) {
 		this.eventQueue.push(url);
 		if (this.eventListener) {
-			this.eventListener.json(this.eventQueue);
+			this.eventListener.data(this.eventQueue);
 			this.eventQueue = [];
 		}
 	}
