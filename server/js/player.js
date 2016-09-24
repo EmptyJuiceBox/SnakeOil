@@ -75,8 +75,10 @@ module.exports = class Player {
 
 	emit(url) {
 		this.eventQueue.push(url);
+
 		if (this.eventListener) {
 			this.eventListener.data(this.eventQueue);
+			this.eventListener = null;
 			this.eventQueue = [];
 		}
 	}
