@@ -10,8 +10,11 @@ module.exports = class Room {
 		this.game = game;
 		this.operator = operator;
 
-		this.cardpack = cardpacknames
-			.map(c => cardpacks[c])
+		this.words = cardpacknames
+			.map(c => cardpacks[c].words)
+			.reduce((acc, arr) => acc.concat(arr), []);
+		this.professions = cardpacknames
+			.map(c => cardpacks[c].professions)
 			.reduce((acc, arr) => acc.concat(arr), []);
 
 		this.players = [];
@@ -40,7 +43,7 @@ module.exports = class Room {
 	setPlayerHand(player) {
 		player.hand = [];
 		for (var i = 0; i < cardsPerPlayer; ++i)
-			player.hand.push(this.randomCard());
+			player.hand.push(this.randomWord());
 	}
 
 	destroy() {
@@ -65,8 +68,13 @@ module.exports = class Room {
 		};
 	}
 
-	randomCard() {
-		var i = Math.floor(Math.random() * this.cardpack.length);
-		return this.cardpack[i];
+	randomWord() {
+		var i = Math.floor(Math.random() * this.words.length);
+		return this.words[i];
+	}
+
+	randomProfession() {
+		var i = Math.floor(Math.random() * this.professions.length);
+		return this.professions[i];
 	}
 }
