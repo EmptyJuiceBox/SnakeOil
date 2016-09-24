@@ -11,7 +11,9 @@ module.exports = class Player {
 		this.game = game;
 		this.room = null;
 
-		this.hand = [];
+		// Will be set by the room
+		this.hand;
+		this.score;
 
 		this.eventListener = null;
 		this.eventQueue = [];

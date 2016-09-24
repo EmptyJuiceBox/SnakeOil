@@ -45,6 +45,8 @@ module.exports = class Room {
 	// Set a player's game data(hand, score, etc)
 	initPlayerGameData(player) {
 		player.hand = [];
+		player.score = 0;
+
 		for (var i = 0; i < cardsPerPlayer; ++i)
 			player.hand.push(this.randomWord());
 	}
@@ -66,10 +68,14 @@ module.exports = class Room {
 	}
 
 	serializePlayers() {
-		return this.players.map(p => { return {
-			"name": p.name,
-			"score": 0
-		}});
+		var ret = {};
+		this.players.map(p => {
+			ret[p.id] = {
+				"name": p.name,
+				"score": p.score
+			};
+		});
+		return ret;
 	}
 
 	serializeRoles() {
