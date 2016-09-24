@@ -107,7 +107,7 @@ module.exports = function(eplist) {
 	 */
 
 	ep("POST", "/room_create", ep_room_create, {
-		args: [ [ "name", "string" ], [ "cardpacks", "object" ] ]
+		args: [ [ "name", "string" ], [ "cardpacks", Array ] ]
 	});
 
 	ep("POST", "/room_join", ep_room_join, {

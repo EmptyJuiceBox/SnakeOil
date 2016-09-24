@@ -23,10 +23,20 @@ function handleRequestWithPayload(player, payload, ep, res) {
 	if (ep.args) {
 		var missing = [];
 
-		// a[0] is the name, obj[1] is the type
+		// a[0] is the name, a[1] is the type
 		ep.args.forEach(a => {
-			if (obj[a[0]] === undefined || typeof obj[a[0]] !== a[1])
+
+			// If it doesn't exist, that's easy
+			if (obj[a[0]] === undefined)
 				missing.push(a[0]+" ("+a[1]+")");
+
+			// typeof if a[1] is a string
+			else if (typeof a[1] === "string" && typeof obj[a[0]] !== a[1])
+				missing.push(a[0]+" ("+a[1]+")");
+
+			// instanceof otherwise
+			else if (typeof a[1] === "function" && !(obj[a[0]] instanceof a[1]))
+				missing.push(a[0]+" ("+(a[1].name)+")");
 		});
 
 		if (missing.length > 0)
