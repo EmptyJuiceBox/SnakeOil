@@ -6,7 +6,13 @@ window.api_request = function(method, path, body, cb)
 
     xhr.open(method, "http://localhost:8080/" + path);
     xhr.overrideMimeType("text/json");
-    xhr.setRequestHeader("Session-Id", player_me);
+
+    if (players_me !== null)
+        xhr.setRequestHeader("Session-Id", players_me);
+
+    if (players_token !== null)
+        xhr.setRequestHeader("Session-Token", players_token);
+
     xhr.send(body);
 
     xhr.addEventListener(
