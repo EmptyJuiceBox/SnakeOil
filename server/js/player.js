@@ -13,6 +13,8 @@ module.exports = class Player {
 
 		this.hand = [];
 
+		this.emit("/cardpacks");
+
 		this.eventListener = null;
 		this.eventQueue = [];
 	}
@@ -34,7 +36,6 @@ module.exports = class Player {
 		this.room = room;
 
 		this.emit("/room");
-		this.emit("/players");
 		this.emit("/roles");
 		this.emit("/hand");
 
