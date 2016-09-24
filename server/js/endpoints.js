@@ -33,7 +33,7 @@ function ep_cardpacks(game, player, res) {
  */
 
 function ep_room_create(game, player, res, opts) {
-	player.createRoom(opts.name, opts.password, opts.cardpacks);
+	player.createRoom(opts.name, opts.cardpacks);
 	res.data();
 }
 

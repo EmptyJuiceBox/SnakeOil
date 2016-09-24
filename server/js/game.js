@@ -1,38 +1,4 @@
-var crypto = require("crypto");
-
-class UniqueMap {
-	constructor() {
-		this.idLen = 4;
-		this.items = {};
-	}
-
-	genId() {
-		for (var i = 0; i < 4; ++i) {
-			var id = crypto.randomBytes(this.idLen).toString("hex");
-			if (this.items[id] === undefined)
-				return id;
-		}
-
-		// We couldn't find free keys in 4 tries; let's make the key length
-		// be a bit longer
-		this.idLen += 2;
-		return this.genId();
-	}
-
-	insert(item) {
-		var id = this.genId();
-		this.items[id] = item;
-		return id;
-	}
-
-	get(id) {
-		return this.items[id];
-	}
-
-	delete(id) {
-		this.items[id] = undefined;
-	}
-}
+var UniqueMap = require("./unique-map");
 
 module.exports = class Game {
 	constructor() {
@@ -44,20 +10,24 @@ module.exports = class Game {
 	 * Player stuff
 	 */
 
+	// Register a player and set its ID
 	registerPlayer(player) {
 		var id = this.players.insert(player);
 		player.id = id;
 		return id;
 	}
 
+	// Remove a player, notifying its room in the process
 	removePlayer(player) {
-		if (this.players.get(player.id)) {
+		if (this.players.contains(player.id)) {
 			if (player.room)
 				player.room.removePlayer(player);
+
 			this.players.delete(player.id);
 		}
 	}
 
+	// Get a player by ID
 	getPlayer(id) {
 		return this.players.get(id);
 	}
@@ -66,19 +36,22 @@ module.exports = class Game {
 	 * Room stuff
 	 */
 
+	// Register a new room and set its ID
 	registerRoom(room) {
 		var id = this.rooms.insert(room);
 		room.id = id;
 		return id;
 	}
 
+	// Remove a room, which notifies all its players
 	removeRoom(room) {
-		if (this.rooms[room.id]) {
+		if (this.rooms.get(room.id)) {
 			room.destroy();
 			this.rooms.delete(room.id);
 		}
 	}
 
+	// Get a room by ID
 	getRoom(id) {
 		return this.rooms.get(id);
 	}

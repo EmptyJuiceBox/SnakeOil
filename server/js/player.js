@@ -18,7 +18,7 @@ module.exports = class Player {
 
 		this.emit("/cardpacks");
 
-		// Trigger and expect a /heartbeat every 10 seconds
+		// Trigger and expect a /heartbeat every 30 seconds
 		this.heartbeatTimeout = null;
 		setInterval(() => {
 			this.emit("/heartbeat");
@@ -26,32 +26,38 @@ module.exports = class Player {
 			// If we don't get a /heartbeat request within 2 seconds
 			// of the /heartbeat event, we destroy the player
 			this.heartbeatTimeout = setTimeout(() => this.destroy(), 2000);
-		}, 10000);
+		}, 30000);
 	}
 
-	createRoom(name, password, cardpacknames) {
+	// Create a room.
+	//     The player will be the operator of the created room.
+	//     The player will join the newly created room.
+	createRoom(name, cardpacknames) {
 		if (cardpacknames.length < 1)
 			throw "Need at least 1 card pack";
 
-		var room = new Room(this.game, name, password, this, cardpacknames);
+		var room = new Room(this.game, name, this, cardpacknames);
 		this.game.registerRoom(room);
-		this.joinRoom(room, password);
+		this.joinRoom(room);
 	}
 
-	joinRoom(room, password) {
+	// Join a room.
+	//     If a room is already joined, leave that room.
+	joinRoom(room) {
 		if (this.room)
 			this.leaveRoom();
 
-		room.registerPlayer(this, password);
+		room.registerPlayer(this);
 		this.room = room;
 
 		this.emit("/room");
 		this.emit("/roles");
 		this.emit("/hand");
-
-		room.setPlayerHand(this);
 	}
 
+	// Leave a room.
+	//     Reset the game data (hand, score, etc).
+	//     Notify the room about the player leaving.
 	leaveRoom() {
 		this.resetGameData();
 		if (this.room) {
@@ -62,14 +68,15 @@ module.exports = class Player {
 		}
 	}
 
+	// Reset the data related to rooms.
 	resetGameData() {
 		this.hand = [];
 	}
 
-	/*
-	 * Event related stuff
-	 */
-
+	// Add an event listener.
+	//     If there already exists one, that response is ended.
+	//     If there's stuff in the event queue, respond immediately.
+	//     If the queue is empty, just save the response object.
 	addListener(res) {
 		if (this.eventListener)
 			this.eventListener.err("Another event listener takes your place.");
@@ -83,6 +90,9 @@ module.exports = class Player {
 		}
 	}
 
+	// Emit an event.
+	//     If there's already a listener, end that response and clear the queue.
+	//     Otherwise, just add it to the queue.
 	emit(url) {
 		this.eventQueue.push(url);
 
@@ -93,6 +103,9 @@ module.exports = class Player {
 		}
 	}
 
+	// Destroy the player.
+	//     Notify the room and the game that the player.
+	//     Emit a /register event; the client will have to register again.
 	destroy() {
 		if (this.room) {
 			this.room.removePlayer(this);
@@ -100,8 +113,10 @@ module.exports = class Player {
 		}
 
 		this.game.removePlayer(this);
+		this.emit("/register");
 	}
 
+	// Heartbeat, preventing the player from being destroyed.
 	heartbeat() {
 		if (this.heartbeatTimeout !== null) {
 			clearTimeout(this.heartbeatTimeout);
