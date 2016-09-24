@@ -1,7 +1,7 @@
 "use strict";
 
 events_callers = events_callers || {};
-console.log(events_callers);
+
 var players_container = null;
 
 var players_pitcher = null;
@@ -70,54 +70,6 @@ window.players_del = function(playerid)
 {
     var playerdiv = document.getElementById("player-" + playerid);
     players_container.removeChild(playerdiv);
-}
-
-events_callers.register = function()
-{
-    var name = prompt("Enter a nickname ...");
-
-    api_post(
-        "register",
-        {"name": name},
-        players_register_handler
-    );
-}
-
-window.players_register_handler = function(data)
-{
-    console.log("Playing with player id " + data.id);
-    console.log(data);
-    players_me    = data.id;
-    players_token = data.token;
-}
-
-events_callers.room_join = function()
-{
-    var id = prompt("Enter room id ...");
-
-    api_post("room_join", {"id": id}, players_room_join_handler);
-}
-
-window.players_room_join_handler = function(data)
-{
-}
-
-events_callers.room_create = function()
-{
-    var name = prompt("Enter name for room ...");
-    var packs = prompt("Enter card packs for room ...");
-
-    packs = packs.split(" ");
-
-    api_post(
-        "room_create",
-        {"name": name, "cardpacks": packs},
-        players_room_create_handler
-    );
-}
-
-window.players_room_create_handler = function(data)
-{
 }
 
 events_callers.players = function()
