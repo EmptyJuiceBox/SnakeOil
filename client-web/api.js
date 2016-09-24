@@ -4,7 +4,7 @@ window.api_request = function(method, path, body, cb)
 {
     var xhr = new XMLHttpRequest();
 
-    xhr.open(method, "http://localhost:8080/" + path);
+    xhr.open(method, "/" + path);
     xhr.overrideMimeType("text/json");
 
     if (players_me !== null)
@@ -25,7 +25,7 @@ window.api_request = function(method, path, body, cb)
                 throw error_new(json.err);
 
             if (cb)
-                cb(JSON.parse(xhr.responseText).data);
+                cb(json.data);
         }
     );
 

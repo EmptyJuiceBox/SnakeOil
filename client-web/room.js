@@ -1,6 +1,14 @@
 var room_cardpacks_list;
 var room_name_input;
 var room_id_input;
+var room_ui;
+var room_game_ui;
+
+var room_id;
+var room_name;
+
+var room_id_span;
+var room_name_span;
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -9,6 +17,9 @@ document.addEventListener(
         room_cardpacks_list = document.getElementById("cardpack-container");
         room_name_input     = document.getElementById("new-room-name");
         room_id_input       = document.getElementById("room-join-id");
+        room_ui             = document.getElementById("room-ui");
+        room_game_ui        = document.getElementById("game-ui");
+        room_id_span        = document.getElementById("room-id");
 
         events_callers.register();
 
@@ -55,6 +66,7 @@ window.room_register_handler = function(data)
     console.log(data);
     players_me    = data.id;
     players_token = data.token;
+    events_poll();
 }
 
 events_callers.room_join = function()
@@ -66,6 +78,23 @@ events_callers.room_join = function()
 
 window.room_room_join_handler = function(data)
 {
+    room_enter();
+}
+
+events_callers.room = function()
+{
+    api_get("room", room_room_handler);
+}
+
+window.room_room_handler = function(data)
+{
+    room_id   = data.id;
+    room_name = data.name;
+
+    room_ui.style.display      = "none";
+    room_game_ui.style.display = "block";
+
+    room_id_span.textContent   = room_id;
 }
 
 events_callers.room_create = function()
@@ -85,7 +114,7 @@ events_callers.room_create = function()
 
     api_post(
         "room_create",
-        {"name": name, "cardpacks": packs},
+        {"name": name, "cardpacks": packnames},
         room_room_create_handler
     );
 }
