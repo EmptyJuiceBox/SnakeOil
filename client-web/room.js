@@ -86,7 +86,8 @@ window.room_register_handler = function(data)
 
     // People should be able to share links to rooms by adding a hash
     // with the room ID to the URL.
-    if (location.hash) {
+    if (location.hash)
+    {
         room_id_input.value = location.hash.substring(1);
         events_callers.room_join();
         location.hash = "";
