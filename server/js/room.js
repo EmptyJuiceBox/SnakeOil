@@ -8,8 +8,10 @@ module.exports = class Room {
 	constructor(game, name, operator, cardpacknames) {
 		this.name = name;
 		this.id; // will be set by something else
-		this.destroyed = false;
 		this.game = game;
+
+		this.destroyed = false;
+		this.running = false;
 
 		this.operator = operator;
 		this.pitcher = null;
@@ -33,7 +35,12 @@ module.exports = class Room {
 	registerPlayer(player) {
 		this.initPlayerGameData(player);
 		this.players.set(player.id, player);
-		this.players.forEach(p => p.emit("/players"));
+		this.emit("/players");
+
+		if (this.players.length() >= 3) {
+			this.running = true;
+			this.round();
+		}
 	}
 
 	// Remove a player.
@@ -44,7 +51,7 @@ module.exports = class Room {
 			this.destroy();
 		} if (this.players.contains(player.id)) {
 			this.players.delete(player.id);
-			this.players.forEach(p => p.emit("/players"));
+			this.emit("/players");
 		}
 	}
 
@@ -106,6 +113,11 @@ module.exports = class Room {
 		return this.professions[i];
 	}
 
+	// Emit event to all players.
+	emit(name) {
+		this.players.forEach(p => p.emit(name));
+	}
+
 	/*
 	 * Game logic
 	 */
@@ -120,7 +132,7 @@ module.exports = class Room {
 		if (this.pitcher == this.customer)
 			this.pitcher = this.players.after(this.customer);
 
-		this.players.forEach(p => p.emit("/roles"));
+		this.emit("/roles");
 	}
 
 	// Start a pitch.
@@ -136,16 +148,20 @@ module.exports = class Room {
 	roundChoose(player) {
 		player.score += 1;
 		this.round();
-		this.players.forEach(p => p.emit("/players"));
+		this.emit("/players");
 	}
 
 	// Start a round.
-	//     If there's enough players to start the round,
-	//     return true.
-	//     Otherwise, return false.
+	//     If there's not enough players to start a round,
+	//     all roles will be null.
 	round() {
-		if (this.players.len() < 3)
-			return false;
+		if (this.players.len() < 3) {
+			this.running = false;
+			this.customer = null;
+			this.pitcher = null;
+			this.emit("/roles");
+			return;
+		}
 
 		// If there's already a customer, the next person becomes a customer,
 		// and the first person becomes a pitcher
@@ -171,7 +187,7 @@ module.exports = class Room {
 
 		this.customer.profession = this.randomProfession();
 
-		this.players.forEach(p => p.emit("/roles"));
+		this.emit("/roles");
 
 		return true;
 	}
