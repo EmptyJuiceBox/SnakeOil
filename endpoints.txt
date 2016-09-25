@@ -2,7 +2,7 @@ POST - /register
 > { "name": name }
 < { "id": id, "token": token }
 
-GET - /cardpacks
+POST - /cardpacks
 < [ "pack1", "pack2" ]
 
 POST - /heartbeat
@@ -28,16 +28,16 @@ POST - /room_leave
  * Get game related info
  */
 
-GET - /room
+POST - /room
 < { "id": id, "name": name  }
 
-GET - /hand
+POST - /hand
 < { cardid: cardtext, ... }
 
-GET - /players
+POST - /players
 < { playerid : {"name": name, "score": score, "pitch": pitch}, ... }
 
-GET - /roles
+POST - /roles
 < { "customer": playerid, "profession": name, "pitcher": playerid, "pitch_started": bool }
 
 /*
@@ -60,7 +60,7 @@ POST - /choose
 
 AND FINALLY
 
-GET - /event
+POST - /event
 < ["/path", "/path2"]
 
 All requests are sent with user ID headers (session-id)
