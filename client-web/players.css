@@ -11,6 +11,16 @@
     background-color: #fcc;
 }
 
+.player-selectable:hover
+{
+    background-color: #faa;
+}
+
+.player-selected
+{
+    background-color: #f77;
+}
+
 .player > span
 {
     display: inline-block;

@@ -57,7 +57,9 @@ window.pitch_select_del = function(cardid)
 
 window.pitch_select = function(cardid)
 {
-    if (pitch_selected.indexOf(cardid) > 0 || ! pitch_selectable)
+    if (pitch_selected.indexOf(cardid) > 0 ||
+        ! pitch_selectable ||
+        (pitch_selected.indexOf(cardid) === 0 && pitch_selected.length === 1))
         return;
 
     if (pitch_selected.length === 2)

@@ -10,9 +10,6 @@ document.addEventListener(
     function()
     {
         cards_container = document.getElementById("cards-container");
-        cards_new(1, "truck");
-        cards_new(2, "cat");
-        cards_new(3, "dog");
     },
     false
 );
