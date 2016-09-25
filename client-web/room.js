@@ -24,11 +24,25 @@ document.addEventListener(
 
         events_callers.register();
 
-        document.getElementById("new-room-button").onclick =
-            events_callers.room_create
+        document.getElementById("new-room-ui").addEventListener(
+            "submit",
+            function(e)
+            {
+                e.preventDefault();
+                events_callers.room_create();
+            },
+            false
+        );
 
-        document.getElementById("join-room-button").onclick =
-            events_callers.room_join
+        document.getElementById("join-room-ui").addEventListener(
+            "submit",
+            function(e)
+            {
+                e.preventDefault();
+                events_callers.room_join();
+            },
+            false
+        );
 
     },
     false
