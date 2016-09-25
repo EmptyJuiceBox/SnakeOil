@@ -54,7 +54,10 @@ function resJson(obj) {
 	var str = JSON.stringify(obj);
 	this.writeHead(200, {
 		"content-type": "application/json; charset=utf-8",
-		"content-length": str.length
+		"content-length": str.length,
+		"cache-control": "no-cache, no-store, must-revalitade",
+		"pragma": "no-cache",
+		'expires": "0"
 	});
 	this.end(str);
 }
