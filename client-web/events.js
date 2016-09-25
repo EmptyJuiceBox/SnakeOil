@@ -4,7 +4,7 @@ window.events_poll = function()
 {
     var xhr = new XMLHttpRequest();
 
-    xhr.open("GET", "/event", true);
+    xhr.open("POST", "/event", true);
     xhr.overrideMimeType("text/json");
 
     xhr.timeout = 5000;

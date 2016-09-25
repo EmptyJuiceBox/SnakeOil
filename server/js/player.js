@@ -32,7 +32,7 @@ module.exports = class Player {
 
 			// If we don't get a /heartbeat request within 5 seconds
 			// of the /heartbeat event, we destroy the player
-			this.heartbeatTimeout = setTimeout(() => this.destroy(), 5000);
+			this.heartbeatTimeout = setTimeout(() => this.destroy(), 60000);
 			this.emit("/heartbeat");
 		}, 30000);
 	}
@@ -61,6 +61,7 @@ module.exports = class Player {
 		this.emit("/room");
 		this.emit("/roles");
 		this.emit("/hand");
+		this.emit("/players");
 	}
 
 	// Leave a room.
