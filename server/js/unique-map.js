@@ -53,4 +53,35 @@ module.exports = class UniqueMap {
 		this.forEach(i => arr.push(fn(i)));
 		return arr;
 	}
+
+	nth(n) {
+		var i = 0;
+		for (var j in this.items) {
+			if (this.items[j] !== undefined && i === n)
+				return this.items[j];
+			else
+				i += 1;
+		}
+		return undefined;
+	}
+
+	after(item) {
+		var encountered = false;
+		for (var j in this.items) {
+			if (this.items[j] === item)
+				encountered = true;
+			else if (encountered)
+				return this.items[i];
+		}
+		return undefined;
+	}
+
+	length() {
+		var len = 0;
+		for (var i in this.items) {
+			if (this.items[i] !== undefined)
+				len += 1;
+		}
+		return len;
+	}
 }
