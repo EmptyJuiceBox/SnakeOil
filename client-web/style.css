@@ -33,3 +33,15 @@ h1
     margin-bottom: 4px;
     text-align: center;
 }
+
+#pitch-container
+{
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #777;
+}
+
+#pitch-timer
+{
+    float: right;
+}

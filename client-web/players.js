@@ -7,7 +7,7 @@ var players_container = null;
 var players_pitcher = null;
 var players_customer = null;
 var players_profession = null;
-
+var players_pitch_started = false;
 var players_me = null;
 var players_token = null;
 
@@ -67,7 +67,10 @@ window.players_update = function(playerid, name, score, pitch)
 
     if (name === players_pitcher)
     {
-        if (pitch === null)
+        if (pitch === null && ! players_pitch_started)
+            state = "About to make a pitch ...";
+
+        else if (pitch == null)
             state = "Currently making a pitch ...";
 
         else
@@ -97,7 +100,7 @@ window.players_del = function(playerid)
 
 events_callers.players = function()
 {
-    api_get("players", players_players_handler);
+    api_seq_get("players", players_players_handler);
 }
 
 window.players_players_handler = function(data)
@@ -112,9 +115,12 @@ window.players_players_handler = function(data)
 
     for (i=0; i < playernodes.length; i++)
     {
-        console.log(playernodes[i]);
-        var node = playernodes[i].id;
-        var nodeId = node.split("-")[1];
+        var node = playernodes[i];
+
+        if (node.nodeType !== 1)
+            continue;
+
+        var nodeId = node.id.split("-")[1];
 
         if (data[nodeId] == null)
             players_container.removeChild(node);
@@ -123,7 +129,7 @@ window.players_players_handler = function(data)
 
 events_callers.roles = function(name)
 {
-    api_get("roles", null, players_roles_handler);
+    api_seq_get("roles", null, players_roles_handler);
 }
 
 window.players_roles_handler = function(data)
@@ -131,6 +137,7 @@ window.players_roles_handler = function(data)
     players_customer   = data.customer;
     players_pitcher    = data.pitcher;
     players_profession = data.profession;
+    players_pitch_started = data.pitch_started;
 
     if (players_pitcher === players_me)
         pitch_turn();

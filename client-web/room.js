@@ -75,7 +75,7 @@ events_callers.room_join = function()
 {
     var id = room_id_input.value.trim();
 
-    api_post("room_join", {"id": id}, room_room_join_handler);
+    api_seq_post("room_join", {"id": id}, room_room_join_handler);
 }
 
 window.room_room_join_handler = function(data)
@@ -84,7 +84,7 @@ window.room_room_join_handler = function(data)
 
 events_callers.room = function()
 {
-    api_get("room", room_room_handler);
+    api_seq_get("room", room_room_handler);
 }
 
 window.room_room_handler = function(data)
@@ -114,7 +114,7 @@ events_callers.room_create = function()
     for (i=0; i < packs.length; i++)
         packnames.push(packs[i].value);
 
-    api_post(
+    api_seq_post(
         "room_create",
         {"name": name, "cardpacks": packnames},
         room_room_create_handler

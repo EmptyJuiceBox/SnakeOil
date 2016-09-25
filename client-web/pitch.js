@@ -6,6 +6,7 @@ var pitch_selected = [];
 var pitch_timeout  = null;
 var pitch_timer_intervalid = null;
 
+var pitch_timer_span    = null;
 var pitch_reveal_button = null;
 var pitch_self_product  = null;
 var pitch_button        = null;
@@ -24,6 +25,19 @@ document.addEventListener(
         pitch_self_product  = document.getElementById("self-product");
         pitch_button        = document.getElementById("pitch-button");
         pitch_reveal_button = document.getElementById("reveal-button");
+        pitch_timer_span    = document.getElementById("pitch-timer");
+
+        pitch_button.addEventListener(
+            "click",
+            events_callers.pitch_start,
+            false
+        );
+
+        pitch_reveal_button.addEventListener(
+            "click",
+            events_callers.pitch_reveal,
+            false
+        );
     },
     false
 );
@@ -61,13 +75,19 @@ window.pitch_self_display = function()
 
 window.pitch_update_timer = function()
 {
-    var remaining = Date.now() - pitch_timeout;
+    var remaining = Math.round((pitch_timeout - Date.now()) / 1000) ;
+    pitch_timer_span.textContent =
+        remaining + " seconds left for your pitch ...";
+
+    if (remaining <= 0)
+        clearInterval(pitch_timer_intervalid);
 }
 
 window.pitch_end = function()
 {
     clearInterval(pitch_timer_intervalid);
     pitch_timer_intervalid = null;
+    pitch_timer_span.style.display    = "none";
     pitch_reveal_button.style.display = "none";
     pitch_selectable = true;
 
@@ -85,6 +105,7 @@ events_callers.pitch_start = function()
         throw error_new("Select some cards first");
 
     pitch_reveal_button.style.display = "inline-block";
+
     pitch_selectable = false;
 
     api_post(
@@ -97,6 +118,7 @@ events_callers.pitch_start = function()
 window.pitch_start_handler = function(data)
 {
     pitch_timeout = Date.now() + data.time;
+    pitch_timer_span.style.display    = "inline-block";
     pitch_timer_intervalid = setInterval(pitch_update_timer, 1000);
 }
 

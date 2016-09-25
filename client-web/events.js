@@ -6,12 +6,13 @@ window.events_poll = function()
 
     xhr.open("GET", "/event", true);
     xhr.overrideMimeType("text/json");
+
     xhr.timeout = 5000;
+
     xhr.setRequestHeader("Session-Id", players_me);
     xhr.setRequestHeader("Session-Token", players_token);
 
     xhr.send(null);
-
 
     xhr.addEventListener(
         "load",
@@ -23,7 +24,10 @@ window.events_poll = function()
                 throw error_new(json.err);
 
             for (i=0; i < json.data.length; i++)
+            {
+                console.log(json.data[i]);
                 events_callers[json.data[i].replace("/", "")]();
+            }
 
             events_poll();
         }
@@ -34,5 +38,5 @@ window.events_poll = function()
 
 events_callers.heartbeat = function()
 {
-    api_post("heartbeat", null, null);
+    api_post("heartbeat", "{}", null);
 }
