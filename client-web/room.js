@@ -53,6 +53,9 @@ events_callers.register = function()
 {
     var name = prompt("Enter a nickname ...");
 
+    while (! name)
+        name = prompt("Enter a nickname properly this time ...");
+
     api_post(
         "register",
         {"name": name},
@@ -62,8 +65,6 @@ events_callers.register = function()
 
 window.room_register_handler = function(data)
 {
-    console.log("Playing with player id " + data.id);
-    console.log(data);
     players_me    = data.id;
     players_token = data.token;
     events_poll();

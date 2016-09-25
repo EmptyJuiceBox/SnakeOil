@@ -2,9 +2,9 @@ html, body
 {
     height:100%;
     width:100%;
-    font-size: 90%;
     font-family:sans-serif;
 }
+
 body
 {
     margin: 0;
@@ -18,43 +18,18 @@ body
     display: none;
 }
 
+#game-ui,
 #room-ui
 {
-    text-align: center;
-}
-
-#new-room-ui,
-#join-room-ui
-{
-    display: inline-block;
-    width: 49%;
-    vertical-align: top;
-    border-radius: 15px;
+    margin: 0;
+    height: 100%;
 }
 
 h1
 {
-    color: #888;
+    margin: 0;
+    color:  #888;
     border-bottom: 5px solid #ccc;
     margin-bottom: 4px;
     text-align: center;
-}
-
-#new-room-ui
-{
-    background-color: #ccf;
-    color: #005;
-}
-
-#join-room-ui
-{
-    background-color: #fcc;
-    color: #500;
-}
-
-#new-room-ui > p,
-#join-room-ui > p
-{
-    padding: 5px;
-    border-top: 3px solid white;
 }

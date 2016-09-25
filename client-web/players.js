@@ -24,7 +24,6 @@ window.players_update = function(playerid, name, score, pitch)
 {
     var playerdiv = document.getElementById("player-" + playerid);
     var namespan, scorespan, pitchspan;
-    console.log([playerid, name, score, pitch]);
 
     if (playerdiv === null)
     {
@@ -80,12 +79,21 @@ events_callers.players = function()
 
 window.players_players_handler = function(data)
 {
-    console.log(data);
-    
     for (var id in data)
     {
         var player = data[id];
         players_update(id, player.name, player.score, player.pitch);
+    }
+
+    var playernodes = players_container.childNodes;
+
+    for (i=0; i < playernodes.length; i++)
+    {
+        var node = playernodes[i].id;
+        var nodeId = node.split("-")[1];
+
+        if (data[nodeId] == null)
+            players_container.removeChild(node);
     }
 }
 
