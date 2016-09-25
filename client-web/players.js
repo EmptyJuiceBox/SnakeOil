@@ -65,7 +65,7 @@ window.players_update = function(playerid, name, score, pitch)
     namespan.textContent  = name;
     scorespan.textContent = score;
 
-    if (name === players_pitcher)
+    if (playerid === players_pitcher)
     {
         if (pitch === null && ! players_pitch_started)
             state = "About to make a pitch ...";
@@ -76,7 +76,7 @@ window.players_update = function(playerid, name, score, pitch)
         else
             state = "Currently pitching " + pitch;
     }
-    else if (name === players_customer)
+    else if (playerid === players_customer)
     {
         state = "Our " + players_profession + " customer";
     }
@@ -105,9 +105,12 @@ events_callers.players = function()
 
 window.players_players_handler = function(data)
 {
+    console.log(data);
+
     for (var id in data)
     {
         var player = data[id];
+        console.log(player);
         players_update(id, player.name, player.score, player.pitch);
     }
 
@@ -129,11 +132,13 @@ window.players_players_handler = function(data)
 
 events_callers.roles = function(name)
 {
-    api_seq_get("roles", null, players_roles_handler);
+    api_get("roles", players_roles_handler);
 }
 
 window.players_roles_handler = function(data)
 {
+    console.log("ROLES");
+    console.log(data);
     players_customer   = data.customer;
     players_pitcher    = data.pitcher;
     players_profession = data.profession;
@@ -146,5 +151,5 @@ window.players_roles_handler = function(data)
         pitch_customer_turn();
 
     else
-        pitch_selected = null;
+        pitch_chosen = null;
 }

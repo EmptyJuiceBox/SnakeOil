@@ -11,7 +11,8 @@ body
     padding-top:0;
 }
 
-#pitch-button,
+#pitch-end-button,
+#pitch-start-button,
 #reveal-button,
 #game-ui
 {

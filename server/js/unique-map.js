@@ -71,7 +71,7 @@ module.exports = class UniqueMap {
 			if (this.items[j] === item)
 				encountered = true;
 			else if (encountered)
-				return this.items[i];
+				return this.items[j];
 		}
 		return undefined;
 	}

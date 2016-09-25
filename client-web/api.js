@@ -70,16 +70,27 @@ window.api_seq_process = function()
     {
         var id = api_seq_order[i];
 
-        if (api_seq_data[id] !== undefined)
-            api_seq_data[id]();
+        if (api_seq_cb[id] !== undefined)
+        {
+            console.log(id);
+            api_seq_cb[id]();
+            api_seq_order.splice(i, 1);
+            delete api_seq_cb[id];
+            i--;
+        }
 
         else
             break;
     }
 }
 
+setInterval(api_seq_process, 10000);
+
 window.api_seq_request = function(method, path, body, cb)
 {
+    var id = api_seq_id;
+    api_seq_id++;
+    api_seq_order.push(id);
 
     var onload = function(xhr)
     {
@@ -89,22 +100,21 @@ window.api_seq_request = function(method, path, body, cb)
             throw error_new(json.err);
 
         if (cb)
-        {
-            var id = api_seq_id;
-            api_seq_id++;
-            api_seq_order.push(id);
-            api_seq_data[id] = function(){cb(json.data)};
-        }
+            api_seq_cb[id] = function(){cb(json.data)};
+
+        api_seq_process();
     }
 
     var onabort = function(xhr)
     {
         throw error_new("Request aborted");
+        api_seq_process();
     }
 
     var onerror = function(xhr)
     {
         throw error_new("Request errored");
+        window.api_seq_process();
     }
 
     return api_request_raw(method, path, body, onload, onabort, onerror);
@@ -112,12 +122,12 @@ window.api_seq_request = function(method, path, body, cb)
 
 window.api_seq_get = function(path, cb)
 {
-    return api_request("GET", path, null, cb);
+    return api_seq_request("GET", path, null, cb);
 }
 
 window.api_seq_post = function(path, body, cb)
 {
     var json = JSON.stringify(body);
 
-    return api_request("POST", path, json, cb);
+    return api_seq_request("POST", path, json, cb);
 }

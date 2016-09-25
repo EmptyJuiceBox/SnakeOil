@@ -139,11 +139,16 @@ module.exports = class Room {
 	roundPitchEnd() {
 		clearTimeout(this.pitchTimeout);
 
+		if (! this.pitcher.pitchRevealed)
+			this.roundPitchReveal();
+
 		this.pitcher = this.players.after(this.pitcher);
+
 		if (this.pitcher == this.customer)
 			this.pitcher = this.players.after(this.customer);
 
 		this.emit("/roles");
+        this.emit("/players");
 	}
 
 	// Start a pitch.
@@ -155,12 +160,17 @@ module.exports = class Room {
 			this.roundPitchEnd();
 		}, pitchDuration * 1000);
 
+        this.emit("/roles");
+        this.emit("/players");
+
 		return pitchDuration;
 	}
 
 	// Reveal the pitch
 	roundPitchReveal() {
 		this.pitcher.pitchRevealed = true;
+
+        this.emit("/roles");
 		this.emit("/players");
 	}
 
@@ -188,7 +198,6 @@ module.exports = class Room {
 			p.pitch = [];
 			p.pitchRevealed = false;
 		});
-		this.emit("/players");
 
 		if (this.players.length < 3) {
 			this.running = false;
@@ -223,6 +232,7 @@ module.exports = class Room {
 		this.customer.profession = this.randomProfession();
 
 		this.emit("/roles");
+		this.emit("/players");
 
 		return true;
 	}

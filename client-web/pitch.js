@@ -10,8 +10,10 @@ var pitch_begun  = false;
 var pitch_timer_span    = null;
 var pitch_reveal_button = null;
 var pitch_self_product  = null;
-var pitch_button        = null;
+var pitch_start_button        = null;
+var pitch_end_button    = null;
 
+var pitch_chosen = null;
 var pitch_selectable = true;
 
 if (!Date.now)
@@ -24,11 +26,18 @@ document.addEventListener(
     function()
     {
         pitch_self_product  = document.getElementById("self-product");
-        pitch_button        = document.getElementById("pitch-button");
+        pitch_start_button  = document.getElementById("pitch-start-button");
+        pitch_end_button  = document.getElementById("pitch-end-button");
         pitch_reveal_button = document.getElementById("reveal-button");
         pitch_timer_span    = document.getElementById("pitch-timer");
 
-        pitch_button.addEventListener(
+        pitch_end_button.addEventListener(
+            "click",
+            events_callers.pitch_end,
+            false
+        );
+
+        pitch_start_button.addEventListener(
             "click",
             events_callers.pitch_start,
             false
@@ -95,7 +104,7 @@ window.pitch_end = function()
     pitch_selectable = true;
     pitch_begun = false;
 
-    api_post("pitch-end", pitch_end_handler);
+    api_post("pitch_end", pitch_end_handler);
 }
 
 window.pitch_end_handler = function(data)
@@ -108,12 +117,13 @@ events_callers.pitch_start = function()
     if (pitch_selected.length !== 2)
         throw error_new("Select some cards first");
 
+    pitch_start_button.style.display        = "none";
     pitch_reveal_button.style.display = "inline-block";
 
     pitch_selectable = false;
 
     api_post(
-        "pitch-start",
+        "pitch_start",
         {"cards": pitch_selected},
         pitch_start_handler
     );
@@ -122,7 +132,7 @@ events_callers.pitch_start = function()
 window.pitch_start_handler = function(data)
 {
     pitch_begun = true;
-    pitch_timeout = Date.now() + data.time;
+    pitch_timeout = Date.now() + data.time * 1000;
     pitch_timer_span.style.display    = "inline-block";
     pitch_timer_intervalid = setInterval(pitch_update_timer, 1000);
 }
@@ -130,7 +140,7 @@ window.pitch_start_handler = function(data)
 window.pitch_pitcher_turn = function()
 {
     if (! pitch_begun)
-        pitch_button.style.display = "inline-block";
+        pitch_start_button.style.display = "inline-block";
 }
 
 window.pitch_customer_turn = function()
@@ -153,16 +163,16 @@ window.pitch_customer_turn = function()
             "click",
             function()
             {
-                if (pitch_selected !== null)
+                if (pitch_chosen !== null)
                 {
                     var prev =
-                        document.getElementById("player-" + pitch_selected);
+                        document.getElementById("player-" + pitch_chosen);
                     prev.className =
                         prev.className.replace(" player-selected", "");
                 }
 
                 node.className += " player-selected";
-                pitch_selected = nodeId;
+                pitch_chosen = nodeId;
             },
             false
         );
@@ -171,6 +181,6 @@ window.pitch_customer_turn = function()
 
 events_callers.reveal = function()
 {
-    pitch_reveal_button.style.display = "inline-block";
-    api_post("reveal", null, null);
+    pitch_reveal_button.style.display = "none";
+    api_post("reveal", "{}", null);
 }
