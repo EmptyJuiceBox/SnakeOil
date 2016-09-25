@@ -202,7 +202,6 @@ module.exports = class Room {
 			p.pitchRevealed = false;
 		});
 
-        console.log(this.players.length());
 		if (this.players.length() < 3) {
 			this.running = false;
 			this.customer = null;
