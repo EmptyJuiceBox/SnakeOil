@@ -1,5 +1,7 @@
 .card
 {
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 0px 0px 12px 2px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -36,10 +38,8 @@
 #cards-container > div
 {
     vertical-align: top;
-    width: 130px;
     display: inline-block;
     margin-left: 10px;
-    transition: padding 0.1s;
 }
 
 #cards-container > .card > p

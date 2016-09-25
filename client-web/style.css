@@ -2,7 +2,6 @@ html, body
 {
     height:100%;
     width:100%;
-    font-size: 90%;
     font-family:sans-serif;
 }
 
@@ -17,6 +16,13 @@ body
 #game-ui
 {
     display: none;
+}
+
+#game-ui,
+#room-ui
+{
+    margin: 0;
+    height: 100%;
 }
 
 h1
