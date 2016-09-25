@@ -47,11 +47,14 @@ module.exports = class Room {
 	//     Destroy the room if the player is the operator.
 	//     Emit a /players event to all players.
 	removePlayer(player) {
-		if (player == this.operator) {
+		if (player === this.operator) {
 			this.destroy();
 		} if (this.players.contains(player.id)) {
 			this.players.delete(player.id);
 			this.emit("/players");
+
+			if (player === this.pitcher)
+				this.roundPitchEnd();
 		}
 	}
 
@@ -60,6 +63,8 @@ module.exports = class Room {
 		player.hand = [];
 		player.score = 0;
 		player.profession = null;
+		player.pitch = [];
+		player.pitchRevealed = false;
 
 		for (var i = 0; i < cardsPerPlayer; ++i)
 			player.hand.push(this.randomWord());
@@ -84,9 +89,14 @@ module.exports = class Room {
 	serializePlayers() {
 		var ret = {};
 		this.players.map(p => {
+			var pitch = null;
+			if (p.pitchRevealed)
+				pitch = p.hand[p.pitch[0]] + " " + p.hand[p.pitch[1]];
+
 			ret[p.id] = {
-				"name": p.name,
-				"score": p.score
+				name: p.name,
+				score: p.score,
+				pitch: pitch
 			};
 		});
 		return ret;

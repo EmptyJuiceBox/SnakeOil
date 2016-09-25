@@ -15,6 +15,8 @@ module.exports = class Player {
 		this.hand;
 		this.score;
 		this.profession;
+		this.pitch;
+		this.pitchRevealed;
 
 		this.eventListener = null;
 		this.eventQueue = [];
