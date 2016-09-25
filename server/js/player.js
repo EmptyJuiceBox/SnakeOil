@@ -7,13 +7,16 @@ module.exports = class Player {
 		this.name = name;
 		this.id; // will be set by something else
 		this.authToken = crypto.randomBytes(16).toString("hex");
-
 		this.game = game;
+
 		this.room = null;
 
 		// Will be set by the room
 		this.hand;
 		this.score;
+		this.profession;
+		this.pitch;
+		this.pitchRevealed;
 
 		this.eventListener = null;
 		this.eventQueue = [];

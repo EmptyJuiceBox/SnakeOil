@@ -81,6 +81,29 @@ function ep_hand(game, player, res) {
 }
 
 /*
+ * Do game stuff
+ */
+
+function ep_pitch_start(game, player, res) {
+	player.room.roundPitch();
+	res.data();
+}
+
+function ep_pitch_end(game, player, res) {
+	player.room.roundPitchEnd();
+	res.data();
+}
+
+function ep_choose(game, player, res, opts) {
+	if (player === player.room.customer) {
+		player.room.roundChoose(opts.player);
+		res.data();
+	} else {
+		res.err("You're not the customer.");
+	}
+}
+
+/*
  * Events
  */
 
@@ -142,6 +165,18 @@ module.exports = function(eplist) {
 	ep("GET", "/roles", ep_roles);
 
 	ep("GET", "/hand", ep_hand);
+
+	/*
+	 * Do game stuff
+	 */
+
+	ep("POST", "/pitch_start", ep_pitch_start);
+
+	ep("POST", "/pitch_end", ep_pitch_end);
+
+	ep("POST", "/choose", ep_choose, {
+		args: [ [ "player", "string" ] ]
+	});
 
 	/*
 	 * Events

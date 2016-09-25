@@ -55,7 +55,7 @@ POST - /reveal
 < { }
 
 POST - /choose
-> { "product": product-id }
+> { "player": playerid }
 < { }
 
 AND FINALLY
