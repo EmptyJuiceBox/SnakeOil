@@ -103,7 +103,7 @@ window.pitch_update_timer = function()
         clearInterval(pitch_timer_intervalid);
 }
 
-window.pitch_end = function()
+events_callers.pitch_end = function()
 {
     clearInterval(pitch_timer_intervalid);
     pitch_timer_intervalid = null;
@@ -152,6 +152,34 @@ window.pitch_pitcher_turn = function()
         pitch_start_button.style.display = "inline-block";
 }
 
+window.pitch_add_choose_product_funct = function(node)
+{
+    var id = node.id.split("-")[1];
+
+    if (id === players_customer)
+        return;
+
+    node.addEventListener(
+        "click",
+        function()
+        {
+            if (pitch_chosen !== null)
+            {
+                var prev =
+                    document.getElementById("player-" + pitch_chosen);
+                prev.className =
+                    prev.className.replace(" player-selected", "");
+            }
+
+            node.className += " player-selected";
+            pitch_chosen = id;
+        },
+        false
+    );
+
+    node.className += " player-selectable";
+}
+
 window.pitch_customer_turn = function()
 {
     var playernodes = players_container.childNodes;
@@ -166,27 +194,7 @@ window.pitch_customer_turn = function()
             node.className.indexOf("player-selectable") >= 0)
             continue;
 
-        node.className += " player-selectable";
-
-        var nodeId = node.id.split("-")[1];
-
-        node.addEventListener(
-            "click",
-            function()
-            {
-                if (pitch_chosen !== null)
-                {
-                    var prev =
-                        document.getElementById("player-" + pitch_chosen);
-                    prev.className =
-                        prev.className.replace(" player-selected", "");
-                }
-
-                node.className += " player-selected";
-                pitch_chosen = nodeId;
-            },
-            false
-        );
+        pitch_add_choose_product_funct(node);
     }
 }
 
