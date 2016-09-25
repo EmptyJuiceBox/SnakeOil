@@ -2,7 +2,7 @@ var cardpacks = require("./cardpacks");
 var UniqueMap = require("./unique-map");
 
 var cardsPerPlayer = 6;
-var pitchDuration = 2 * 1000 * 60; // 2 minutes
+var pitchDuration = 2 * 60; // 2 minutes, in seconds
 
 module.exports = class Room {
 	constructor(game, name, operator, cardpacknames) {
@@ -146,10 +146,21 @@ module.exports = class Room {
 	}
 
 	// Start a pitch.
-	roundPitch() {
+	//     Returns the maximum length of the pitch.
+	roundPitch(cards) {
+		this.pitcher.pitch = cards;
+
 		this.pitchTimeout = setTimeout(() => {
 			this.roundPitchEnd();
-		}, pitchDuration);
+		}, pitchDuration * 1000);
+
+		return pitchDuration;
+	}
+
+	// Reveal the pitch
+	roundPitchReveal() {
+		this.pitcher.pitchRevealed = true;
+		this.emit("/players");
 	}
 
 	// Choose a player's product.
@@ -165,6 +176,19 @@ module.exports = class Room {
 	//     If there's not enough players to start a round,
 	//     all roles will be null.
 	round() {
+
+		// Reset all players' pitches, and replace cards in the hand
+		this.players.forEach(p => {
+			if (p.pitchRevealed) {
+				p.pitch.forEach(i => p.hand[i] = this.randomWord());
+				p.emit("/hand");
+			}
+
+			p.pitch = [];
+			p.pitchRevealed = false;
+		});
+		this.emit("/players");
+
 		if (this.players.len() < 3) {
 			this.running = false;
 			this.customer = null;

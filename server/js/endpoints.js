@@ -84,23 +84,47 @@ function ep_hand(game, player, res) {
  * Do game stuff
  */
 
-function ep_pitch_start(game, player, res) {
-	player.room.roundPitch();
-	res.data();
+function ep_pitch_start(game, player, res, opts) {
+	if (!player.room)
+		return res.err("You're not in a room!");
+	if (player !== player.room.pitcher)
+		return res.err("You're not the pitcher!");
+
+	var time = player.room.roundPitch(opts.cards);
+	res.data({ time: time });
 }
 
 function ep_pitch_end(game, player, res) {
+	if (!player.room)
+		return res.err("You're not in a room!");
+	if (player !== player.room.pitcher)
+		return res.err("You're not the pitcher!");
+
 	player.room.roundPitchEnd();
 	res.data();
 }
 
+function ep_reveal(game, player, res) {
+	if (!player.room)
+		return res.err("You're not in a room!");
+	if (player !== player.room.pitcher)
+		return res.err("You're not the pitcher!");
+
+	player.room.roundPitchReveal();
+}
+
 function ep_choose(game, player, res, opts) {
-	if (player === player.room.customer) {
-		player.room.roundChoose(opts.player);
-		res.data();
-	} else {
-		res.err("You're not the customer.");
-	}
+	if (!player.room)
+		return res.err("You're not in a room!");
+	if (player !== player.room.customer)
+		res.err("You're not the customer!");
+
+	var p = player.room.players.get(opts.player);
+	if (!p)
+		return res.err("Chosen player doesn't exist!");
+
+	player.room.roundChoose(p);
+	res.data();
 }
 
 /*
@@ -170,9 +194,15 @@ module.exports = function(eplist) {
 	 * Do game stuff
 	 */
 
-	ep("POST", "/pitch_start", ep_pitch_start);
+	ep("POST", "/pitch_start", ep_pitch_start, {
+		args: [ [ "cards", Array ] ]
+	});
 
 	ep("POST", "/pitch_end", ep_pitch_end);
+
+	ep("POST", "/reveal", ep_reveal, {
+		args: [ [ "player", "string" ] ]
+	});
 
 	ep("POST", "/choose", ep_choose, {
 		args: [ [ "player", "string" ] ]

@@ -16,6 +16,5 @@ function load(name) {
 
 module.exports = {
 	"Elixir": load("elixir"),
-	"Original": load("original"),
-	"Politics": load("politics")
+	"Original": load("original")
 }
