@@ -57,7 +57,7 @@ function resJson(obj) {
 		"content-length": str.length,
 		"cache-control": "no-cache, no-store, must-revalitade",
 		"pragma": "no-cache",
-		'expires": "0"
+		"expires": "0"
 	});
 	this.end(str);
 }

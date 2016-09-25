@@ -54,7 +54,6 @@ module.exports = class Room {
 			this.emit("/roles");
 			this.emit("/players");
 
-
 			if (player === this.pitcher)
 				this.roundPitchEnd();
 		}

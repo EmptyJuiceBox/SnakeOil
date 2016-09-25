@@ -36,7 +36,6 @@ module.exports = class UniqueMap {
 	}
 
 	delete(id) {
-        throw Error("NO");
 		this.items[id.toUpperCase()] = undefined;
 	}
 
