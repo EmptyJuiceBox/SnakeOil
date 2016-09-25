@@ -14,6 +14,7 @@ body
 #pitch-end-button,
 #pitch-start-button,
 #reveal-button,
+#pitch-choose-button,
 #game-ui
 {
     display: none;
