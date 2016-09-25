@@ -20,16 +20,30 @@ document.addEventListener(
         room_ui             = document.getElementById("room-ui");
         room_game_ui        = document.getElementById("game-ui");
         room_id_span        = document.getElementById("room-id");
+        room_share_input    = document.getElementById("room-share");
         room_name_span      = document.getElementById("room-name");
 
         events_callers.register();
 
-        document.getElementById("new-room-button").onclick =
-            events_callers.room_create
+        document.getElementById("new-room-ui").addEventListener(
+            "submit",
+            function(e)
+            {
+                e.preventDefault();
+                events_callers.room_create();
+            },
+            false
+        );
 
-        document.getElementById("join-room-button").onclick =
-            events_callers.room_join
-
+        document.getElementById("join-room-ui").addEventListener(
+            "submit",
+            function(e)
+            {
+                e.preventDefault();
+                events_callers.room_join();
+            },
+            false
+        );
     },
     false
 );
@@ -69,6 +83,14 @@ window.room_register_handler = function(data)
     players_me    = data.id;
     players_token = data.token;
     events_poll();
+
+    // People should be able to share links to rooms by adding a hash
+    // with the room ID to the URL.
+    if (location.hash) {
+        room_id_input.value = location.hash.substring(1);
+        events_callers.room_join();
+        location.hash = "";
+    }
 }
 
 events_callers.room_join = function()
@@ -96,6 +118,7 @@ window.room_room_handler = function(data)
     room_game_ui.style.display = "block";
 
     room_id_span.textContent   = "ID: " + room_id;
+    room_share_input.value     = location.href.replace("#", "") + "#"+room_id;
     room_name_span.textContent = room_name;
 }
 

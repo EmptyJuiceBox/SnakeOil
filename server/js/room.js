@@ -44,8 +44,8 @@ module.exports = class Room {
 	}
 
 	// Remove a player.
-	//    Destroy the room if the player is the operator.
-	//    Emit a /players event to all players.
+	//     Destroy the room if the player is the operator.
+	//     Emit a /players event to all players.
 	removePlayer(player) {
 		if (player === this.operator) {
 			this.destroy();
@@ -135,8 +135,8 @@ module.exports = class Room {
 	 */
 
 	// End a pitch.
-	//	   If there's no more players who can be pitchers,
-	//	   the pitcher will be undefined (and thus null in /roles)
+	//     If there's no more players who can be pitchers,
+	//     the pitcher will be undefined (and thus null in /roles)
 	roundPitchEnd() {
 		clearTimeout(this.pitchTimeout);
 
@@ -202,13 +202,12 @@ module.exports = class Room {
 			p.pitchRevealed = false;
 		});
 
-        console.log(this.players.length());
 		if (this.players.length() < 3) {
 			this.running = false;
 			this.customer = null;
 			this.pitcher = null;
 			this.emit("/roles");
-            this.emit("/players");
+			this.emit("/players");
 			return;
 		}
 

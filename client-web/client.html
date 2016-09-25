@@ -25,6 +25,7 @@
     <div id="game-ui">
       <div>
         <h1 id="room-name"></h1>
+        Share: <input onclick="select()" id="room-share"><br>
         <span id="room-id"></span>
       </div>
 
@@ -49,7 +50,8 @@
 
     <div id="room-ui">
       <h1>Join a game</h1>
-      <div id="new-room-ui">
+
+      <form id="new-room-ui">
         <h2>Create a new game ...</h2>
         <p>
           <span>Select cardpacks for new game</span>
@@ -65,18 +67,19 @@
         <p>
           <button id="new-room-button">Create new game</button>
         </p>
-    </div>
-    <div id="join-room-ui">
-      <h2>Join an existing game</h2>
-      <p>
-        <span>Enter an existing game's ID</span>
-        <br />
-        <input placeholder="Room ID" id="room-join-id" />
-      </p>
-      <p>
-        <button id="join-room-button">Join game</button>
-      </p>
-        
+      </form>
+
+      <form id="join-room-ui">
+        <h2>Join an existing game</h2>
+        <p>
+          <span>Enter an existing game's ID</span>
+          <br />
+          <input placeholder="Room ID" id="room-join-id" />
+        </p>
+        <p>
+          <button id="join-room-button">Join game</button>
+        </p>
+      </form>
     </div>
   </body>
 </html>
