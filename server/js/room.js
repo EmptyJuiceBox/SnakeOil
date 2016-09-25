@@ -158,7 +158,8 @@ module.exports = class Room {
 		this.pitcher.pitch = cards;
 
 		this.pitchTimeout = setTimeout(() => {
-			this.roundPitchEnd();
+			this.pitcher.emit("/pitch_end");
+//			this.roundPitchEnd();
 		}, pitchDuration * 1000);
 
 		this.emit("/roles");

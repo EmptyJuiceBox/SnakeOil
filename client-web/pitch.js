@@ -113,7 +113,7 @@ window.pitch_end = function()
     pitch_selectable = true;
     pitch_begun = false;
 
-    api_post("pitch_end", pitch_end_handler);
+    api_get("pitch_end", pitch_end_handler);
 }
 
 window.pitch_end_handler = function(data)
@@ -203,5 +203,6 @@ events_callers.choose = function()
 events_callers.reveal = function()
 {
     pitch_reveal_button.style.display = "none";
+    pitch_end_button.style.display    = "inline-block";
     api_post("reveal", {}, null);
 }
