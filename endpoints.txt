@@ -38,7 +38,7 @@ GET - /players
 < { playerid : {"name": name, "score": score, "pitch": pitch}, ... }
 
 GET - /roles
-< { "customer": playerid, "profession": name, "pitcher": playerid }
+< { "customer": playerid, "profession": name, "pitcher": playerid, "pitch_started": bool }
 
 /*
  * Do game stuff

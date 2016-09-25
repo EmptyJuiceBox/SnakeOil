@@ -107,7 +107,8 @@ module.exports = class Room {
 			operator: this.operator.id,
 			pitcher: (this.pitcher ? this.pitcher.id : null),
 			customer: (this.customer ? this.customer.id : null),
-			profession: (this.customer ? this.customer.profession : null)
+			profession: (this.customer ? this.customer.profession : null),
+			pitch_started: (this.pitcher && this.pitcher.pitch.length > 0)
 		};
 	}
 
