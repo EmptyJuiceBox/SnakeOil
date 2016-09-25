@@ -6,26 +6,47 @@
 
 .player
 {
-    margin: 4px;
-    background-color: #ccc;
+    margin: 10px;
+    border-radius: 999px;
+    background-color: #fcc;
 }
 
 .player > span
 {
     display: inline-block;
+    border-right: 3px solid #fff;
 }
 
 .player > .name
 {
-    font-size: 150%;
-    width: 40%;
+    width: 30%;
+    text-align: right;
+    padding-right: 10px;
+    color: #520;
 }
 
 .player > .score
 {
+    width: 10%;
+    text-align: center;
 }
 
-.player > .pitch
+.player > .state
 {
-    float: right;
+    border-right: none;
+    padding-left: 10px;
+}
+
+.pitch-container
+{
+    text-align: center;
+}
+
+#self-product
+{
+    background-color: #eee;
+    padding: 5px;
+    border-left: 2px solid #ccc;
+    border-right: 2px solid #ccc;
+    color: #f70;
 }

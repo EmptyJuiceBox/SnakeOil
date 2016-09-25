@@ -20,6 +20,7 @@ document.addEventListener(
         room_ui             = document.getElementById("room-ui");
         room_game_ui        = document.getElementById("game-ui");
         room_id_span        = document.getElementById("room-id");
+        room_name_span      = document.getElementById("room-name");
 
         events_callers.register();
 
@@ -79,7 +80,6 @@ events_callers.room_join = function()
 
 window.room_room_join_handler = function(data)
 {
-    room_enter();
 }
 
 events_callers.room = function()
@@ -95,7 +95,8 @@ window.room_room_handler = function(data)
     room_ui.style.display      = "none";
     room_game_ui.style.display = "block";
 
-    room_id_span.textContent   = room_id;
+    room_id_span.textContent   = "ID: " + room_id;
+    room_name_span.textContent = room_name;
 }
 
 events_callers.room_create = function()

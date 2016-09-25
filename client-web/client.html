@@ -5,7 +5,7 @@
   <head>
     <title>Snake Oil</title>
 
-    <meta http-equiv="Content-Type" content="charset=utf-8, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta http-equiv="Content-Type" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
 
     <script src="pitch.js"></script>
     <script src="error.js"></script>
@@ -23,23 +23,23 @@
 
   <body>
     <div id="game-ui">
-      <p>
-        You are in room ID
+      <div>
+        <h1 id="room-name"></h1>
         <span id="room-id"></span>
-      </p>
+      </div>
 
       <div id="players-container">
       </div>
 
-      <div id="pitch-container">
-        You are pitching a
+      <p id="pitch-container">
+        Your product is
         <span id="self-product"></span>
         <span id="pitcher"></span>
         <button id="pitch-button">Pitch</button>
         <button id="reveal-button">Reveal</button>
         <br />
         <span id="product"></span>
-      </div>
+      </p>
       <div id="cards-container">
       </div>
     </div>

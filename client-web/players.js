@@ -23,7 +23,8 @@ document.addEventListener(
 window.players_update = function(playerid, name, score, pitch)
 {
     var playerdiv = document.getElementById("player-" + playerid);
-    var namespan, scorespan, pitchspan;
+    var namespan, scorespan, statespan;
+    var state;
 
     if (playerdiv === null)
     {
@@ -33,15 +34,15 @@ window.players_update = function(playerid, name, score, pitch)
 
         namespan  = document.createElement("span");
         scorespan = document.createElement("span");
-        pitchspan = document.createElement("span");
+        statespan = document.createElement("span");
 
         namespan.className  = "name";
         scorespan.className = "score";
-        pitchspan.className = "pitch";
+        statespan.className = "state";
 
         playerdiv.appendChild(namespan);
         playerdiv.appendChild(scorespan);
-        playerdiv.appendChild(pitchspan);
+        playerdiv.appendChild(statespan);
 
         players_container.appendChild(playerdiv);
     }
@@ -56,14 +57,36 @@ window.players_update = function(playerid, name, score, pitch)
         );
 
         playerdiv.childNodes.forEach(
-            function (n) { if (n.className == "pitch") pitchspan = n }
+            function (n) { if (n.className == "state") statespan = n }
         );
 
     }
 
     namespan.textContent  = name;
     scorespan.textContent = score;
-    pitchspan.textContent = pitch;
+
+    if (name === players_pitcher)
+    {
+        if (pitch === null)
+            state = "Currently making a pitch ...";
+
+        else
+            state = "Currently pitching " + pitch;
+    }
+    else if (name === players_customer)
+    {
+        state = "Our " + players_profession + " customer";
+    }
+    else if (pitch !== null)
+    {
+        state = "Already pitched " + pitch;
+    }
+    else
+    {
+        state = "";
+    }
+
+    statespan.textContent = state;
 }
 
 window.players_del = function(playerid)
@@ -89,6 +112,7 @@ window.players_players_handler = function(data)
 
     for (i=0; i < playernodes.length; i++)
     {
+        console.log(playernodes[i]);
         var node = playernodes[i].id;
         var nodeId = node.split("-")[1];
 

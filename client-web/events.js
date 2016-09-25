@@ -31,3 +31,8 @@ window.events_poll = function()
 
     xhr.addEventListener("timeout", events_poll);
 }
+
+events_callers.heartbeat = function()
+{
+    api_post("heartbeat", null, null);
+}
