@@ -162,7 +162,7 @@ module.exports = function(eplist) {
 	 * Get card pack names
 	 */
 
-	ep("GET", "/cardpacks", ep_cardpacks);
+	ep("POST", "/cardpacks", ep_cardpacks);
 
 	/*
 	 * Room related endpoints
@@ -182,13 +182,13 @@ module.exports = function(eplist) {
 	 * Get information
 	 */
 
-	ep("GET", "/room", ep_room);
+	ep("POST", "/room", ep_room);
 
-	ep("GET", "/players", ep_players);
+	ep("POST", "/players", ep_players);
 
-	ep("GET", "/roles", ep_roles);
+	ep("POST", "/roles", ep_roles);
 
-	ep("GET", "/hand", ep_hand);
+	ep("POST", "/hand", ep_hand);
 
 	/*
 	 * Do game stuff
@@ -212,5 +212,5 @@ module.exports = function(eplist) {
 	 * Events
 	 */
 
-	ep("GET", "/event", ep_event);
+	ep("POST", "/event", ep_event);
 }
