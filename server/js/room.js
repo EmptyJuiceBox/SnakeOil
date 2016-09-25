@@ -51,7 +51,9 @@ module.exports = class Room {
 			this.destroy();
 		} if (this.players.contains(player.id)) {
 			this.players.delete(player.id);
+			this.emit("/roles");
 			this.emit("/players");
+
 
 			if (player === this.pitcher)
 				this.roundPitchEnd();
