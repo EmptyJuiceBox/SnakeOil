@@ -8,7 +8,9 @@ module.exports = class UniqueMap {
 
 	genId() {
 		for (var i = 0; i < 4; ++i) {
-			var id = crypto.randomBytes(this.idLen).toString("hex");
+			var id = crypto.randomBytes(this.idLen)
+				.toString("hex")
+				.toUpperCase();
 			if (this.items[id] === undefined)
 				return id;
 		}
@@ -26,19 +28,19 @@ module.exports = class UniqueMap {
 	}
 
 	get(id) {
-		return this.items[id];
+		return this.items[id.toUpperCase()];
 	}
 
 	set(id, val) {
-		this.items[id] = val;
+		this.items[id.toUpperCase()] = val;
 	}
 
 	delete(id) {
-		this.items[id] = undefined;
+		this.items[id.toUpperCase()] = undefined;
 	}
 
 	contains(id) {
-		return this.items[id] !== undefined;
+		return this.items[id.toUpperCase()] !== undefined;
 	}
 
 	forEach(fn) {
