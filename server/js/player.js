@@ -30,8 +30,8 @@ module.exports = class Player {
 
 			// If we don't get a /heartbeat request within 2 seconds
 			// of the /heartbeat event, we destroy the player
-			this.heartbeatTimeout = setTimeout(() => this.destroy(), 2000);
-		}, 3000);
+//			this.heartbeatTimeout = setTimeout(() => this.destroy(), 30000);
+		}, 30000);
 	}
 
 	// Create a room.

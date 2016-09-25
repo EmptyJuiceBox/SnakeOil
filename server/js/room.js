@@ -190,7 +190,7 @@ module.exports = class Room {
 		});
 		this.emit("/players");
 
-		if (this.players.len() < 3) {
+		if (this.players.length < 3) {
 			this.running = false;
 			this.customer = null;
 			this.pitcher = null;

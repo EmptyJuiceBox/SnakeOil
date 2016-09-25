@@ -5,6 +5,7 @@ var events_callers = events_callers || {};
 var pitch_selected = [];
 var pitch_timeout  = null;
 var pitch_timer_intervalid = null;
+var pitch_begun  = false;
 
 var pitch_timer_span    = null;
 var pitch_reveal_button = null;
@@ -90,6 +91,7 @@ window.pitch_end = function()
     pitch_timer_span.style.display    = "none";
     pitch_reveal_button.style.display = "none";
     pitch_selectable = true;
+    pitch_begun = false;
 
     api_post("pitch-end", pitch_end_handler);
 }
@@ -117,14 +119,52 @@ events_callers.pitch_start = function()
 
 window.pitch_start_handler = function(data)
 {
+    pitch_begun = true;
     pitch_timeout = Date.now() + data.time;
     pitch_timer_span.style.display    = "inline-block";
     pitch_timer_intervalid = setInterval(pitch_update_timer, 1000);
 }
 
-window.pitch_turn = function()
+window.pitch_pitcher_turn = function()
 {
-    pitch_button.style.display = "inline-block";
+    if (! pitch_begun)
+        pitch_button.style.display = "inline-block";
+}
+
+window.pitch_customer_turn = function()
+{
+    var playernodes = players_container.childNodes;
+
+    for (i=0; i < playernodes.length; i++)
+    {
+        var node = playernodes[i];
+
+        if (node.nodeType !== 1 ||
+            node.className.indexOf("player-selectable") !== 0)
+            continue;
+
+        node.className += " player-selectable";
+
+        var nodeId = node.id.split("-")[1];
+
+        node.addEventListener(
+            "click",
+            function()
+            {
+                if (pitch_selected !== null)
+                {
+                    var prev =
+                        document.getElementById("player-" + pitch_selected);
+                    prev.className =
+                        prev.className.replace(" player-selected", "");
+                }
+
+                node.className += " player-selected";
+                pitch_selected = nodeId;
+            },
+            false
+        );
+    }
 }
 
 events_callers.reveal = function()

@@ -140,5 +140,11 @@ window.players_roles_handler = function(data)
     players_pitch_started = data.pitch_started;
 
     if (players_pitcher === players_me)
-        pitch_turn();
+        pitch_pitcher_turn();
+
+    if (players_customer === players_me)
+        pitch_customer_turn();
+
+    else
+        pitch_selected = null;
 }
