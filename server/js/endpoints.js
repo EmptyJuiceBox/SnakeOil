@@ -201,7 +201,7 @@ module.exports = function(eplist) {
 	ep("POST", "/pitch_end", ep_pitch_end);
 
 	ep("POST", "/reveal", ep_reveal, {
-		args: [ [ "player", "string" ] ]
+		args: [ [ ] ]
 	});
 
 	ep("POST", "/choose", ep_choose, {

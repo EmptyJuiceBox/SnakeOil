@@ -44,8 +44,8 @@ module.exports = class Room {
 	}
 
 	// Remove a player.
-	//     Destroy the room if the player is the operator.
-	//     Emit a /players event to all players.
+	//    Destroy the room if the player is the operator.
+	//    Emit a /players event to all players.
 	removePlayer(player) {
 		if (player === this.operator) {
 			this.destroy();
@@ -135,8 +135,8 @@ module.exports = class Room {
 	 */
 
 	// End a pitch.
-	//     If there's no more players who can be pitchers,
-	//     the pitcher will be undefined (and thus null in /roles)
+	//	   If there's no more players who can be pitchers,
+	//	   the pitcher will be undefined (and thus null in /roles)
 	roundPitchEnd() {
 		clearTimeout(this.pitchTimeout);
 
@@ -149,7 +149,7 @@ module.exports = class Room {
 			this.pitcher = this.players.after(this.customer);
 
 		this.emit("/roles");
-        this.emit("/players");
+		this.emit("/players");
 	}
 
 	// Start a pitch.
@@ -161,8 +161,8 @@ module.exports = class Room {
 			this.roundPitchEnd();
 		}, pitchDuration * 1000);
 
-        this.emit("/roles");
-        this.emit("/players");
+		this.emit("/roles");
+		this.emit("/players");
 
 		return pitchDuration;
 	}
@@ -171,7 +171,7 @@ module.exports = class Room {
 	roundPitchReveal() {
 		this.pitcher.pitchRevealed = true;
 
-        this.emit("/roles");
+		this.emit("/roles");
 		this.emit("/players");
 	}
 
@@ -180,7 +180,7 @@ module.exports = class Room {
 	//     Ends the round, and begins a new one.
 	roundChoose(player) {
 		if (this.running)
-		    player.score += 1;
+			player.score += 1;
 
 		this.round();
 		this.emit("/players");
@@ -208,6 +208,7 @@ module.exports = class Room {
 			this.customer = null;
 			this.pitcher = null;
 			this.emit("/roles");
+            this.emit("/players");
 			return;
 		}
 

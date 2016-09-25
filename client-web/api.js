@@ -50,7 +50,7 @@ window.api_request = function(method, path, body, cb)
 
 window.api_get = function(path, cb)
 {
-    return api_request("GET", path, null, cb);
+    return api_request("POST", path, "{}", cb);
 }
 
 window.api_post = function(path, body, cb)
@@ -122,7 +122,7 @@ window.api_seq_request = function(method, path, body, cb)
 
 window.api_seq_get = function(path, cb)
 {
-    return api_seq_request("GET", path, null, cb);
+    return api_seq_request("POST", path, "{}", cb);
 }
 
 window.api_seq_post = function(path, body, cb)
