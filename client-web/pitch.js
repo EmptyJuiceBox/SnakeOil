@@ -10,8 +10,9 @@ var pitch_begun  = false;
 var pitch_timer_span    = null;
 var pitch_reveal_button = null;
 var pitch_self_product  = null;
-var pitch_start_button        = null;
+var pitch_start_button  = null;
 var pitch_end_button    = null;
+var pitch_choose_button = null;
 
 var pitch_chosen = null;
 var pitch_selectable = true;
@@ -27,7 +28,8 @@ document.addEventListener(
     {
         pitch_self_product  = document.getElementById("self-product");
         pitch_start_button  = document.getElementById("pitch-start-button");
-        pitch_end_button  = document.getElementById("pitch-end-button");
+        pitch_end_button    = document.getElementById("pitch-end-button");
+        pitch_choose_button = document.getElementById("pitch-choose-button");
         pitch_reveal_button = document.getElementById("reveal-button");
         pitch_timer_span    = document.getElementById("pitch-timer");
 
@@ -45,7 +47,13 @@ document.addEventListener(
 
         pitch_reveal_button.addEventListener(
             "click",
-            events_callers.pitch_reveal,
+            events_callers.reveal,
+            false
+        );
+
+        pitch_choose_button.addEventListener(
+            "click",
+            events_callers.choose,
             false
         );
     },
@@ -101,6 +109,7 @@ window.pitch_end = function()
     pitch_timer_intervalid = null;
     pitch_timer_span.style.display    = "none";
     pitch_reveal_button.style.display = "none";
+    pitch_end_button.style.display    = "none";
     pitch_selectable = true;
     pitch_begun = false;
 
@@ -117,8 +126,8 @@ events_callers.pitch_start = function()
     if (pitch_selected.length !== 2)
         throw error_new("Select some cards first");
 
-    pitch_start_button.style.display        = "none";
-    pitch_reveal_button.style.display = "inline-block";
+    pitch_start_button.style.display  = "none";
+    pitch_end_button.style.display    = "none";
 
     pitch_selectable = false;
 
@@ -133,7 +142,7 @@ window.pitch_start_handler = function(data)
 {
     pitch_begun = true;
     pitch_timeout = Date.now() + data.time * 1000;
-    pitch_timer_span.style.display    = "inline-block";
+    pitch_reveal_button.style.display = "inline-block";
     pitch_timer_intervalid = setInterval(pitch_update_timer, 1000);
 }
 
@@ -147,12 +156,14 @@ window.pitch_customer_turn = function()
 {
     var playernodes = players_container.childNodes;
 
+    pitch_choose_button.style.display = "inline-block";
+
     for (i=0; i < playernodes.length; i++)
     {
         var node = playernodes[i];
 
         if (node.nodeType !== 1 ||
-            node.className.indexOf("player-selectable") !== 0)
+            node.className.indexOf("player-selectable") >= 0)
             continue;
 
         node.className += " player-selectable";
@@ -179,8 +190,18 @@ window.pitch_customer_turn = function()
     }
 }
 
+events_callers.choose = function()
+{
+    if (pitch_chosen === null)
+        throw error_new("Chose a winning product from the players list.");
+
+    pitch_choose_button.style.display = "none";
+
+    api_post("choose", {"player": pitch_chosen}, null);
+}
+
 events_callers.reveal = function()
 {
     pitch_reveal_button.style.display = "none";
-    api_post("reveal", "{}", null);
+    api_post("reveal", {}, null);
 }

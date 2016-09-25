@@ -180,7 +180,9 @@ module.exports = class Room {
 	//     Increments the player's score.
 	//     Ends the round, and begins a new one.
 	roundChoose(player) {
-		player.score += 1;
+		if (this.running)
+		    player.score += 1;
+
 		this.round();
 		this.emit("/players");
 	}
@@ -201,7 +203,8 @@ module.exports = class Room {
 			p.pitchRevealed = false;
 		});
 
-		if (this.players.length < 3) {
+        console.log(this.players.length());
+		if (this.players.length() < 3) {
 			this.running = false;
 			this.customer = null;
 			this.pitcher = null;
