@@ -28,7 +28,11 @@ module.exports = class Player {
 		setInterval(() => {
 			// If we don't get a /heartbeat request within 5 seconds
 			// of the /heartbeat event, we destroy the player
-			this.heartbeatTimeout = setTimeout(() => this.destroy(), 30000);
+			clearTimeout(this.heartbeatTimeout);
+
+			// If we don't get a /heartbeat request within 5 seconds
+			// of the /heartbeat event, we destroy the player
+			this.heartbeatTimeout = setTimeout(() => this.destroy(), 5000);
 			this.emit("/heartbeat");
 		}, 30000);
 	}

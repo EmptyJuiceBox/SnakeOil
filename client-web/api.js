@@ -1,6 +1,6 @@
 "use strict";
 
-window.api_request_raw = function(method, path, body, load, abort, err)
+window.api_request_raw = function(method, path, body, load, abort, error)
 {
     var xhr = new XMLHttpRequest();
 
