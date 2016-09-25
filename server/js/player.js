@@ -26,11 +26,11 @@ module.exports = class Player {
 		// Trigger and expect a /heartbeat every 30 seconds
 		this.heartbeatTimeout = null;
 		setInterval(() => {
-			this.emit("/heartbeat");
 
 			// If we don't get a /heartbeat request within 5 seconds
 			// of the /heartbeat event, we destroy the player
 			this.heartbeatTimeout = setTimeout(() => this.destroy(), 5000);
+			this.emit("/heartbeat");
 		}, 30000);
 	}
 
