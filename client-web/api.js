@@ -94,7 +94,6 @@ window.api_seq_request = function(method, path, body, cb)
 
     var onload = function(xhr)
     {
-        console.log(xhr.responseText);
         var json = JSON.parse(xhr.responseText);
 
         if (json.err)
