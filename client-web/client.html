@@ -23,10 +23,11 @@
 
   <body>
     <div id="game-ui">
-      <div>
         <h1 id="room-name"></h1>
-        <span id="share-link">Share: <input onclick="select()" id="room-share"><br></span>
-        <span id="room-id"></span><button id="room-leave-button">Leave Room</button>
+      <div id="room-meta-controls">
+        <button id="room-leave-button">Leave Room</button>
+        <span id="room-id"></span>
+        <span id="share-link">Share: <input onclick="select()" id="room-share"></span>
       </div>
 
       <div id="players-container">
