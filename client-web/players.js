@@ -78,7 +78,7 @@ window.players_update = function(playerid, name, score, pitch)
     }
     else if (playerid === players_customer)
     {
-        state = "Our " + players_profession + " customer";
+        state = "Customer - " + players_profession;
     }
     else if (pitch !== null)
     {

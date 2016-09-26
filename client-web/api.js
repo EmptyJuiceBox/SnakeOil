@@ -137,8 +137,15 @@ window.api_seq_process = function()
 
         if (api_seq_cb[id] !== undefined)
         {
-            /* Do the callback */
-            api_seq_cb[id]();
+            try
+            {
+                /* Do the callback */
+                api_seq_cb[id]();
+            }
+            catch (err)
+            {
+                error_new(err);
+            }
             /* Delete the event from the order and cbs */
             api_seq_order.splice(i, 1);
             delete api_seq_cb[id];

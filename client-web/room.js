@@ -44,6 +44,12 @@ document.addEventListener(
             },
             false
         );
+
+        document.getElementById("room-leave-button").addEventListener(
+            "click",
+            events_callers.room_leave,
+            false
+        );
     },
     false
 );
@@ -105,6 +111,20 @@ window.room_room_join_handler = function(data)
 {
 }
 
+events_callers.room_leave = function()
+{
+    api_get("room_leave", room_leave_handler);
+}
+
+window.room_leave_handler = function()
+{
+    room_id = null;
+    room_name = null;
+
+    room_ui.style.display      = "block";
+    room_game_ui.style.display = "none";
+}
+
 events_callers.room = function()
 {
     api_seq_get("room", room_room_handler);
@@ -112,6 +132,7 @@ events_callers.room = function()
 
 window.room_room_handler = function(data)
 {
+    console.log(data);
     room_id   = data.id;
     room_name = data.name;
 

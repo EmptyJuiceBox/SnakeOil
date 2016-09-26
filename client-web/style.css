@@ -47,3 +47,9 @@ h1
 {
     text-align: right;
 }
+
+#share-link
+{
+    display: inline-block;
+    float: right;
+}
