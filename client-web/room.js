@@ -132,7 +132,9 @@ events_callers.room = function()
 
 window.room_room_handler = function(data)
 {
-    console.log(data);
+    if (data === null)
+        room_leave_handler();
+
     room_id   = data.id;
     room_name = data.name;
 
