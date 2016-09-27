@@ -18,6 +18,8 @@ module.exports = class Player {
 		this.pitch;
 		this.pitchRevealed;
 
+		this.chatMessageQueue = [];
+
 		this.eventListener = null;
 		this.eventQueue = [];
 
@@ -80,6 +82,21 @@ module.exports = class Player {
 	// Reset the data related to rooms.
 	resetGameData() {
 		this.hand = [];
+	}
+
+	addChatMessage(sender, date, msg) {
+		this.chatMessageQueue.push({
+			from: sender.id,
+			date: date,
+			msg: msg
+		});
+		this.emit("/messages");
+	}
+
+	clearChatMessages() {
+		var msgs = this.chatMessageQueue;
+		this.chatMessageQueue = [];
+		return msgs;
 	}
 
 	// Add an event listener.

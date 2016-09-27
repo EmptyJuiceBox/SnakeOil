@@ -51,6 +51,14 @@ function ep_room_leave(game, player, res) {
 	res.data();
 }
 
+function ep_room_send_message(game, player, res, opts) {
+	if (!player.room)
+		return res.err("Room doesn't exist.");
+
+	player.room.addChatMessage(player, opts.msg);
+	res.data();
+}
+
 /*
  * Get information
  */
@@ -78,6 +86,10 @@ function ep_roles(game, player, res) {
 
 function ep_hand(game, player, res) {
 	res.data(player.serializeHand());
+}
+
+function ep_messages(game, player, res) {
+	res.data(player.clearChatMessages());
 }
 
 /*
@@ -179,6 +191,10 @@ module.exports = function(eplist) {
 
 	ep("POST", "/room_leave", ep_room_leave);
 
+	ep("POST", "/room_send_message", ep_room_send_message, {
+		args: [ [ "msg", "string" ] ]
+	});
+
 	/*
 	 * Get information
 	 */
@@ -190,6 +206,8 @@ module.exports = function(eplist) {
 	ep("POST", "/roles", ep_roles);
 
 	ep("POST", "/hand", ep_hand);
+
+	ep("POST", "/messages", ep_messages);
 
 	/*
 	 * Do game stuff
