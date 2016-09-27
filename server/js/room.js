@@ -130,6 +130,12 @@ module.exports = class Room {
 		this.players.forEach(p => p.emit(name));
 	}
 
+	// Add a chat message to all players.
+	addChatMessage(sender, msg) {
+		var date = new Date();
+		this.players.forEach(p => p.addChatMessage(sender, date, msg));
+	}
+
 	/*
 	 * Game logic
 	 */

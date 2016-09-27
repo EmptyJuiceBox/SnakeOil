@@ -15,6 +15,8 @@ var players_profession = null;
 
 var players_token = null;
 
+// Chat needs to know what player IDs correspond to what players
+var players_names = {};
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -118,6 +120,7 @@ window.players_players_handler = function(data)
         var player = data[id];
         console.log(player);
         players_update(id, player.name, player.score, player.pitch);
+        players_names[id] = player.name;
     }
 
     var playernodes = players_container.childNodes;
