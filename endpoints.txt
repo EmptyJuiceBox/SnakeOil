@@ -13,7 +13,7 @@ Must be called as a response to the /heartbeat event, or the player is deleted
  */
 
 POST - /room_create
-> { "name": name, "cardpacks": [ "pack1", "pack2" ] }
+> { "name": name, "cardpacks": [ "pack1", "pack2" ], "cards_per_player": number, "pitch_duration": seconds }
 < { "id": id }
 ==> /room, /players, /roles, /hand
 
@@ -88,6 +88,8 @@ and token headers (session-token)
 ==> /players
 
 ==> /roles
+
+==> /pitch_end
 
 ==> /heartbeat
 

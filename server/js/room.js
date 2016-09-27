@@ -1,14 +1,14 @@
 var cardpacks = require("./cardpacks");
 var UniqueMap = require("./unique-map");
 
-var cardsPerPlayer = 6;
-var pitchDuration = 2 * 60; // 2 minutes, in seconds
-
 module.exports = class Room {
-	constructor(game, name, operator, cardpacknames) {
+	constructor(game, name, operator, cardpackNames, cardsPerPlayer, pitchDuration) {
 		this.name = name;
 		this.id; // will be set by something else
 		this.game = game;
+
+		this.cardsPerPlayer = cardsPerPlayer;
+		this.pitchDuration = pitchDuration;
 
 		this.destroyed = false;
 		this.running = false;
@@ -17,10 +17,10 @@ module.exports = class Room {
 		this.pitcher = null;
 		this.customer = null;
 
-		this.words = cardpacknames
+		this.words = cardpackNames
 			.map(c => cardpacks[c].words)
 			.reduce((acc, arr) => acc.concat(arr), []);
-		this.professions = cardpacknames
+		this.professions = cardpackNames
 			.map(c => cardpacks[c].professions)
 			.reduce((acc, arr) => acc.concat(arr), []);
 
@@ -67,7 +67,7 @@ module.exports = class Room {
 		player.pitch = [];
 		player.pitchRevealed = false;
 
-		for (var i = 0; i < cardsPerPlayer; ++i)
+		for (var i = 0; i < this.cardsPerPlayer; ++i)
 			player.hand.push(this.randomWord());
 	}
 
@@ -144,9 +144,12 @@ module.exports = class Room {
 	//     If there's no more players who can be pitchers,
 	//     the pitcher will be undefined (and thus null in /roles)
 	roundPitchEnd() {
+		if (!this.pitcher)
+			return;
+
 		clearTimeout(this.pitchTimeout);
 
-		if (! this.pitcher.pitchRevealed)
+		if (!this.pitcher.pitchRevealed)
 			this.roundPitchReveal();
 
 		this.pitcher = this.players.after(this.pitcher);
@@ -165,13 +168,13 @@ module.exports = class Room {
 
 		this.pitchTimeout = setTimeout(() => {
 			this.pitcher.emit("/pitch_end");
-//			this.roundPitchEnd();
-		}, pitchDuration * 1000);
+			this.roundPitchEnd();
+		}, this.pitchDuration * 1000);
 
 		this.emit("/roles");
 		this.emit("/players");
 
-		return pitchDuration;
+		return this.pitchDuration;
 	}
 
 	// Reveal the pitch
