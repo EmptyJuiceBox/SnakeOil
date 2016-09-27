@@ -8,6 +8,10 @@ var Game = require("./js/game");
 var game = new Game();
 var fileserver = new Fileserver("../client-web");
 
+var conf = {
+	port: process.env.PORT ? parseInt(process.env.PORT) : 8080
+};
+
 function handleRequestWithPayload(player, payload, ep, res) {
 	var obj;
 	if (payload === "") {
@@ -137,4 +141,4 @@ function handler(req, res) {
 
 endpoints(eplist);
 
-http.createServer(handler).listen(8080);
+http.createServer(handler).listen(conf.port);
