@@ -33,7 +33,11 @@ function ep_cardpacks(game, player, res) {
  */
 
 function ep_room_create(game, player, res, opts) {
-	player.createRoom(opts.name, opts.cardpacks);
+	player.createRoom(
+		opts.name,
+		opts.cardpacks,
+		opts.cards_per_player,
+		opts.pitch_duration);
 	res.data();
 }
 
@@ -109,8 +113,10 @@ function ep_pitch_start(game, player, res, opts) {
 function ep_pitch_end(game, player, res) {
 	if (!player.room)
 		return res.err("You're not in a room!");
+
+	// Swallowing the error to make the client happy
 	if (player !== player.room.pitcher)
-		return res.err("You're not the pitcher!");
+		return res.data();
 
 	player.room.roundPitchEnd();
 	res.data();
@@ -182,7 +188,12 @@ module.exports = function(eplist) {
 	 */
 
 	ep("POST", "/room_create", ep_room_create, {
-		args: [ [ "name", "string" ], [ "cardpacks", Array ] ]
+		args: [
+			[ "name", "string" ],
+			[ "cardpacks", Array ],
+			[ "cards_per_player", "number" ],
+			[ "pitch_duration", "number" ]
+		]
 	});
 
 	ep("POST", "/room_join", ep_room_join, {
