@@ -245,7 +245,7 @@ window.room_messages_handler = function(data)
         root.appendChild(date_el);
 
         var name_el = document.createElement("span");
-        name_el.className = "name";
+        name_el.className = "name " + color_from_string(d.from);
         name_el.innerText = name;
         root.appendChild(name_el);
 

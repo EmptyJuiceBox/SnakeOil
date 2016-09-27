@@ -56,33 +56,3 @@
 {
     color: #777;
 }
-
-.card-red
-{
-    background-color: #fcc;
-    color: #500;
-}
-
-.card-yellow
-{
-    background-color: #ffb;
-    color: #550;
-}
-
-.card-blue
-{
-    background-color: #ccf;
-    color: #005;
-}
-
-.card-green
-{
-    background-color: #cfc;
-    color: #050;
-}
-
-.card-purple
-{
-    background-color: #fcf;
-    color: #055;
-}

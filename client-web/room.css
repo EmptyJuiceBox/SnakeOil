@@ -72,6 +72,10 @@
 {
     height: 40px;
 }
+#messages-list .message
+{
+    line-height: 21px;
+}
 #messages-list .message .date
 {
     margin-right: 10px;
@@ -79,6 +83,8 @@
 #messages-list .message .name
 {
     margin-right: 10px;
+    border-radius: 5px;
+    padding: 0px 3px;
 }
 #messages-collapse
 {
