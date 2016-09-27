@@ -87,6 +87,12 @@ window.pitch_select = function(cardid)
     pitch_self_display();
 }
 
+window.pitch_clear = function()
+{
+    pitch_selected = [];
+    pitch_self_display();
+}
+
 window.pitch_self_display = function()
 {
     var names = pitch_selected.map(function(id) { return cards_hand[id]; });
@@ -159,23 +165,19 @@ window.pitch_add_choose_product_funct = function(node)
     if (id === players_customer)
         return;
 
-    node.addEventListener(
-        "click",
-        function()
+    node.onclick = function()
+    {
+        if (pitch_chosen !== null)
         {
-            if (pitch_chosen !== null)
-            {
-                var prev =
-                    document.getElementById("player-" + pitch_chosen);
-                prev.className =
-                    prev.className.replace(" player-selected", "");
-            }
+            var prev =
+                document.getElementById("player-" + pitch_chosen);
+            prev.className =
+                prev.className.replace(" player-selected", "");
+        }
 
-            node.className += " player-selected";
-            pitch_chosen = id;
-        },
-        false
-    );
+        node.className += " player-selected";
+        pitch_chosen = id;
+    };
 
     node.className += " player-selectable";
 }
@@ -206,6 +208,22 @@ events_callers.choose = function()
     pitch_choose_button.style.display = "none";
 
     api_post("choose", {"player": pitch_chosen}, null);
+
+    var playernodes = players_container.childNodes;
+
+    for (i=0; i < playernodes.length; i++)
+    {
+        var node = playernodes[i];
+
+        if (node.nodeType !== 1 ||
+            node.className.indexOf("player-selectable") < 0)
+            continue;
+
+        node.onclick = null;
+        node.className = node.className.replace(" player-selectable", "");
+        node.className = node.className.replace(" player-selected", "");
+    }
+
 }
 
 events_callers.reveal = function()

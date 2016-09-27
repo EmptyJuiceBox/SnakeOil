@@ -46,19 +46,23 @@ window.cards_del = function(id)
 
 events_callers.hand = function(cards)
 {
-    api_get("hand", cards_hand_handler);
+    api_seq_get("hand", cards_hand_handler);
 }
 
 window.cards_hand_handler = function(cards)
 {
     var id;
+    var clear_product = false;
 
     for (id in cards_hand)
     {
         var text = cards_hand[id];
 
         if (cards[id] !== text)
+        {
+            clear_product = true;
             cards_del(id);
+        }
     }
 
     for (id in cards)
@@ -66,7 +70,13 @@ window.cards_hand_handler = function(cards)
         var text = cards[id];
 
         if (cards_hand[id] !== text)
+        {
+            clear_product = true;
             cards_new(id, text);
+        }
     }
+
+    if (clear_product)
+        pitch_clear();
 }
 

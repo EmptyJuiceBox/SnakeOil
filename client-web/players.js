@@ -132,13 +132,11 @@ window.players_players_handler = function(data)
 
 events_callers.roles = function(name)
 {
-    api_get("roles", players_roles_handler);
+    api_seq_get("roles", players_roles_handler);
 }
 
 window.players_roles_handler = function(data)
 {
-    console.log("ROLES");
-    console.log(data);
     players_customer   = data.customer;
     players_pitcher    = data.pitcher;
     players_profession = data.profession;

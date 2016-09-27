@@ -111,6 +111,7 @@ function ep_reveal(game, player, res) {
 		return res.err("You're not the pitcher!");
 
 	player.room.roundPitchReveal();
+	res.data();
 }
 
 function ep_choose(game, player, res, opts) {

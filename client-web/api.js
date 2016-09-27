@@ -17,6 +17,7 @@
  */
 window.api_request_raw = function(method, path, body, load, abort, error)
 {
+    console.log("> " + path + " <-- " + body);
     var xhr = new XMLHttpRequest();
 
     xhr.open(method, "/" + path);
@@ -32,7 +33,7 @@ window.api_request_raw = function(method, path, body, load, abort, error)
     xhr.send(body);
 
     /* Mount our callbacks */
-    xhr.addEventListener("load",  function(){ load(xhr);  });
+    xhr.addEventListener("load",  function(){console.log("< " + path + " ->>" + xhr.responseText); load(xhr);  });
     xhr.addEventListener("abort", function(){ abort(xhr); });
     xhr.addEventListener("error", function(){ error(xhr); });
 
