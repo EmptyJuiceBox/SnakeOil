@@ -193,8 +193,8 @@ events_callers.room_create = function()
 {
     var name      = room_name_input.value;
     var packs     = room_cardpacks_list.selectedOptions;
-    var cardnum   = room_cardnum_input.value;
-    var pitchtime = room_pitchtime_input.value;
+    var cardnum   = parseInt(room_cardnum_input.value);
+    var pitchtime = parseInt(room_pitchtime_input.value);
     var packnames = [];
 
     if (packs.length === 0)
