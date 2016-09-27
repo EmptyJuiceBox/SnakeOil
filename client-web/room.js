@@ -244,10 +244,14 @@ window.room_messages_handler = function(data)
         date_el.innerText = date;
         root.appendChild(date_el);
 
+        root.appendChild(document.createTextNode(" "));
+
         var name_el = document.createElement("span");
         name_el.className = "name " + color_from_string(d.from);
         name_el.innerText = name;
         root.appendChild(name_el);
+
+        root.appendChild(document.createTextNode(": "));
 
         var msg_el = document.createElement("span");
         msg_el.className = "content";
