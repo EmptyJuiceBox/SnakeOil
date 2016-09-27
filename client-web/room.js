@@ -13,21 +13,26 @@ var room_name;
 var room_id_span;
 var room_name_span;
 
+var room_cardnum_input;
+var room_pitchtime_input;
+
 document.addEventListener(
     "DOMContentLoaded",
     function()
     {
-        room_cardpacks_list = document.getElementById("cardpack-container");
-        room_name_input     = document.getElementById("new-room-name");
-        room_id_input       = document.getElementById("room-join-id");
-        room_ui             = document.getElementById("room-ui");
-        room_game_ui        = document.getElementById("game-ui");
-        room_id_span        = document.getElementById("room-id");
-        room_share_input    = document.getElementById("room-share");
-        room_name_span      = document.getElementById("room-name");
-        room_messages_cont  = document.getElementById("messages-container");
-        room_messages_list  = document.getElementById("messages-list");
-        room_messages_input = document.getElementById("messages-new-message");
+        room_cardpacks_list  = document.getElementById("cardpack-container");
+        room_name_input      = document.getElementById("new-room-name");
+        room_cardnum_input   = document.getElementById("new-room-cardnum");
+        room_pitchtime_input = document.getElementById("new-room-pitchtime");
+        room_id_input        = document.getElementById("room-join-id");
+        room_ui              = document.getElementById("room-ui");
+        room_game_ui         = document.getElementById("game-ui");
+        room_id_span         = document.getElementById("room-id");
+        room_share_input     = document.getElementById("room-share");
+        room_name_span       = document.getElementById("room-name");
+        room_messages_cont   = document.getElementById("messages-container");
+        room_messages_list   = document.getElementById("messages-list");
+        room_messages_input  = document.getElementById("messages-new-message");
 
         events_callers.register();
 
@@ -186,8 +191,10 @@ window.room_room_handler = function(data)
 
 events_callers.room_create = function()
 {
-    var name = room_name_input.value;
-    var packs = room_cardpacks_list.selectedOptions;
+    var name      = room_name_input.value;
+    var packs     = room_cardpacks_list.selectedOptions;
+    var cardnum   = room_cardnum_input.value;
+    var pitchtime = room_pitchtime_input.value;
     var packnames = [];
 
     if (packs.length === 0)
@@ -201,7 +208,12 @@ events_callers.room_create = function()
 
     api_seq_post(
         "room_create",
-        {"name": name, "cardpacks": packnames},
+        {
+            "name": name,
+            "cardpacks": packnames,
+            "pitch_duration": pitchtime,
+            "cards_per_player": cardnum
+        },
         room_room_create_handler
     );
 }

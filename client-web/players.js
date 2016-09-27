@@ -4,15 +4,19 @@ events_callers = events_callers || {};
 
 var players_container = null;
 
-var players_pitcher = null;
-var players_customer = null;
-var players_profession = null;
+var players_me         = null;
+var players_pitcher    = null;
+var players_customer   = null;
+var players_op         = null;
+
 var players_pitch_started = false;
-var players_me = null;
+
+var players_profession = null;
+
 var players_token = null;
 
 // Chat needs to know what player IDs correspond to what players
-window.players_names = {};
+var players_names = {};
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -65,6 +69,9 @@ window.players_update = function(playerid, name, score, pitch)
 
     }
 
+    if (playerid === players_op && playerdiv.className.indexOf("player-op") < 0)
+        playerdiv.className += " player-op";
+
     namespan.textContent  = name;
     scorespan.textContent = score;
 
@@ -108,8 +115,6 @@ events_callers.players = function()
 
 window.players_players_handler = function(data)
 {
-    console.log(data);
-
     for (var id in data)
     {
         var player = data[id];
@@ -141,10 +146,11 @@ events_callers.roles = function(name)
 
 window.players_roles_handler = function(data)
 {
-    players_customer   = data.customer;
-    players_pitcher    = data.pitcher;
-    players_profession = data.profession;
+    players_customer      = data.customer;
+    players_pitcher       = data.pitcher;
+    players_profession    = data.profession;
     players_pitch_started = data.pitch_started;
+    players_op            = data.operator;
 
     if (players_pitcher === players_me)
         pitch_pitcher_turn();

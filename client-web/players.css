@@ -9,6 +9,15 @@
     margin: 10px;
     border-radius: 999px;
     background-color: #fcc;
+    color: #500;
+}
+
+.player-op
+{
+    margin: 10px;
+    border-radius: 999px;
+    background-color: #cfc;
+    color: #050;
 }
 
 .player-selectable:hover
@@ -25,7 +34,6 @@
 {
     display: inline-block;
     border-right: 3px solid #fff;
-    color: #500;
 }
 
 .player > .name

@@ -42,7 +42,7 @@ POST - /players
 < { playerid : {"name": name, "score": score, "pitch": pitch}, ... }
 
 POST - /roles
-< { "customer": playerid, "profession": name, "pitcher": playerid, "pitch_started": bool }
+< { "customer": playerid, "profession": name, "pitcher": playerid, "pitch_started": bool, "operator": playerid }
 
 POST - /messages
 < [ { "from": playerid, "date": date, "msg": message }, ... ]
