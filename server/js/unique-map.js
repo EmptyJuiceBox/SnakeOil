@@ -2,7 +2,7 @@ var crypto = require("crypto");
 
 module.exports = class UniqueMap {
 	constructor() {
-		this.idLen = 4;
+		this.idLen = 3;
 		this.items = {};
 	}
 

@@ -42,11 +42,16 @@ module.exports = class Player {
 	// Create a room.
 	//     The player will be the operator of the created room.
 	//     The player will join the newly created room.
-	createRoom(name, cardpacknames) {
+	createRoom(name, cardpacknames, cardsPerPlayer, pitchDuration) {
 		if (cardpacknames.length < 1)
 			throw "Need at least 1 card pack";
 
-		var room = new Room(this.game, name, this, cardpacknames);
+		var room = new Room(
+			this.game, name, this,
+			cardpacknames,
+			cardsPerPlayer,
+			pitchDuration);
+
 		this.game.registerRoom(room);
 		this.joinRoom(room);
 	}
