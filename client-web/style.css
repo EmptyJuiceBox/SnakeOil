@@ -44,11 +44,6 @@ h1
     text-align: center;
 }
 
-#room-meta-controls
-{
-    text-align: center;
-}
-
 #pitch-container
 {
     padding-left: 10px;
@@ -64,9 +59,9 @@ h1
 #share-link
 {
     display: inline-block;
-    right: 10px;
-    position: absolute;
     color: #888;
+    float: right;
+    margin-right: 10px;
 }
 
 #room-share
@@ -81,7 +76,13 @@ h1
 #room-id
 {
     color: #888;
+    margin-left: 10px;
     display: inline-block;
-    left: 10px;
-    position: absolute;
+    float: left;
+    clear: both;
+}
+
+#room-leave-button
+{
+    margin-left: 10px;
 }

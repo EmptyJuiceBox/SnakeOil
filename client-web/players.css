@@ -1,7 +1,10 @@
 #players-container
 {
-    overflow: auto;
+    display: inline-block;
+    overflow-y: auto;
+    overflow-x: hidden;
     height: 50%;
+    width: 70%;
 }
 
 .player

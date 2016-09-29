@@ -25,15 +25,26 @@
 
   <body>
     <div id="game-ui">
-        <h1 id="room-name"></h1>
+      <h1 id="room-name"></h1>
       <div id="room-meta-controls">
         <button id="room-leave-button">Leave Room</button>
         <span id="room-id"></span>
-        <span id="share-link">Share: <input onclick="select()" id="room-share"></span>
+        <span id="share-link">Share: <input onclick="select()" id="room-share" /></span>
       </div>
 
       <div id="players-container">
       </div>
+
+      <div id="messages-container">
+        <div id="messages-list">
+        </div>
+
+        <form id="messages-form">
+          <input type="text" id="messages-new-message" autocomplete="off" />
+          <button>Send</button>
+        </form>
+      </div>
+
 
       <p id="pitch-container">
         Your product is
@@ -48,18 +59,6 @@
         <span id="product"></span>
       </p>
       <div id="cards-container">
-      </div>
-
-      <div id="messages-container">
-          <button id="messages-collapse"></button>
-
-          <div id="messages-list">
-          </div>
-
-          <form id="messages-form">
-              <input type="text" id="messages-new-message" autocomplete="off">
-              <button>Send</button>
-          </form>
       </div>
     </div>
 
@@ -107,5 +106,3 @@
     </div>
   </body>
 </html>
-    
-  

@@ -34,13 +34,9 @@
 
 #messages-container
 {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    width: 60vw;
-    max-width: 400px;
+    display: inline-block;
+    height: 50%;
+    width: 29%;
 }
 #messages-form input,
 #messages-form button
@@ -62,19 +58,15 @@
 }
 #messages-list
 {
-    transition: height 0.3s;
-    height: 30vh;
+    height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     word-wrap: break-word;
 }
-#messages-container.collapsed #messages-list
-{
-    height: 40px;
-}
 #messages-list .message
 {
     line-height: 21px;
+    font-size: 80%;
 }
 #messages-list .message .date
 {
@@ -85,27 +77,4 @@
     margin-right: 10px;
     border-radius: 5px;
     padding: 0px 3px;
-}
-#messages-collapse
-{
-    position: absolute;
-    right: 0px;
-    height: 20px;
-    width: 20px;
-    line-height: 20px;
-    text-align: center;
-    font-size: 0.9em;
-    background: #eee;
-    border: none;
-    border-left: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    padding: 0px;
-}
-#messages-collapse::before
-{
-    content: "x";
-}
-#messages-container.collapsed #messages-collapse::before
-{
-    content: "+";
 }
